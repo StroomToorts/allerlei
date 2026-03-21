@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gesprekssimulator — Loongesprek</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #1a1a2e;
+  --surface: #16213e;
+  --surface2: #1c2a4a;
+  --accent: #4a9eff;
+  --accent-glow: rgba(74, 158, 255, 0.15);
+  --green: #4ade80;
+  --green-bg: rgba(74, 222, 128, 0.1);
+  --green-border: rgba(74, 222, 128, 0.3);
+  --orange: #fb923c;
+  --orange-bg: rgba(251, 146, 60, 0.1);
+  --orange-border: rgba(251, 146, 60, 0.3);
+  --red: #f87171;
+  --red-bg: rgba(248, 113, 113, 0.1);
+  --red-border: rgba(248, 113, 113, 0.3);
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --text-bright: #f8fafc;
+  --stien-bg: #2d2040;
+  --stien-border: rgba(168, 130, 220, 0.3);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 20px 16px 100px;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  padding: 40px 0 30px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  margin-bottom: 30px;
+}
+
+.header-label {
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.header h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 28px;
+  color: var(--text-bright);
+  font-weight: 400;
+  line-height: 1.3;
+}
+
+.header p {
+  color: var(--text-dim);
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+/* Progress */
+.progress-bar {
+  width: 100%;
+  height: 3px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 2px;
+  margin-bottom: 30px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: width 0.6s ease;
+  box-shadow: 0 0 12px rgba(74, 158, 255, 0.4);
+}
+
+.scene-counter {
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: 24px;
+  letter-spacing: 1px;
+}
+
+/* Chat bubbles */
+.chat-area {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.bubble {
+  max-width: 88%;
+  padding: 16px 20px;
+  border-radius: 16px;
+  line-height: 1.6;
+  font-size: 15px;
+  animation: fadeUp 0.4s ease;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.bubble-stien {
+  align-self: flex-start;
+  background: var(--stien-bg);
+  border: 1px solid var(--stien-border);
+  border-bottom-left-radius: 4px;
+}
+
+.bubble-stien .speaker {
+  font-size: 12px;
+  font-weight: 600;
+  color: #c4a6e8;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+
+.bubble-jorgo {
+  align-self: flex-end;
+  background: var(--surface2);
+  border: 1px solid rgba(74, 158, 255, 0.2);
+  border-bottom-right-radius: 4px;
+}
+
+.bubble-jorgo .speaker {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+
+/* Context box */
+.context-box {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin: 8px 0;
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.5;
+  font-style: italic;
+}
+
+/* Options */
+.options-container {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: fadeUp 0.5s ease 0.3s both;
+}
+
+.options-label {
+  font-size: 12px;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.option-btn {
+  width: 100%;
+  text-align: left;
+  padding: 14px 18px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: var(--surface);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.option-btn:hover {
+  border-color: var(--accent);
+  background: var(--accent-glow);
+  transform: translateX(4px);
+}
+
+.option-btn.selected { pointer-events: none; }
+
+.option-btn.green {
+  border-color: var(--green-border);
+  background: var(--green-bg);
+}
+.option-btn.orange {
+  border-color: var(--orange-border);
+  background: var(--orange-bg);
+}
+.option-btn.red {
+  border-color: var(--red-border);
+  background: var(--red-bg);
+}
+
+.option-btn .rating {
+  display: none;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-top: 8px;
+}
+
+.option-btn.green .rating { display: block; color: var(--green); }
+.option-btn.orange .rating { display: block; color: var(--orange); }
+.option-btn.red .rating { display: block; color: var(--red); }
+
+/* Feedback */
+.feedback {
+  padding: 16px 18px;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.6;
+  margin-top: 8px;
+  animation: fadeUp 0.4s ease;
+}
+
+.feedback-green {
+  background: var(--green-bg);
+  border: 1px solid var(--green-border);
+  color: var(--green);
+}
+.feedback-orange {
+  background: var(--orange-bg);
+  border: 1px solid var(--orange-border);
+  color: var(--orange);
+}
+.feedback-red {
+  background: var(--red-bg);
+  border: 1px solid var(--red-border);
+  color: var(--red);
+}
+
+/* Navigation */
+.nav-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 24px;
+  animation: fadeUp 0.4s ease;
+}
+
+.nav-btn {
+  padding: 12px 24px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: var(--surface);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nav-btn:hover {
+  border-color: var(--accent);
+  background: var(--accent-glow);
+}
+
+.nav-btn.primary {
+  background: var(--accent);
+  color: #000;
+  border-color: var(--accent);
+  font-weight: 600;
+}
+
+.nav-btn.primary:hover {
+  background: #6bb3ff;
+}
+
+/* Restart */
+.restart-section {
+  text-align: center;
+  padding: 40px 0;
+  animation: fadeUp 0.5s ease;
+}
+
+.restart-section h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 24px;
+  color: var(--text-bright);
+  margin-bottom: 8px;
+}
+
+.restart-section p {
+  color: var(--text-dim);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.score-display {
+  font-size: 48px;
+  font-family: 'DM Serif Display', serif;
+  color: var(--accent);
+  margin: 20px 0;
+}
+
+.score-breakdown {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin: 16px 0 30px;
+  font-size: 14px;
+}
+
+.score-item { display: flex; align-items: center; gap: 6px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; }
+.dot-green { background: var(--green); }
+.dot-orange { background: var(--orange); }
+.dot-red { background: var(--red); }
+</style>
+</head>
+<body>
+<div class="container" id="app"></div>
+
+<script>
+const scenes = [
+  {
+    id: 1,
+    stien: "Jorgo, ik heb je document gelezen. Dat is... nogal wat. Ik wist niet dat je zo ontevreden was over je loon.",
+    context: "De opening. Stien heeft het document gelezen en reageert. De toon die je hier zet, kleurt het hele gesprek.",
+    options: [
+      {
+        text: "\"Ontevreden is niet het juiste woord, Stien. Ik ben heel graag bij Clavis en ik waardeer wat we samen opbouwen. Maar mijn rol is de voorbije jaren flink geëvolueerd, en ik denk dat het tijd is om het loonpakket daarmee in lijn te brengen.\"",
+        rating: "green",
+        label: "Sterk",
+        feedback: "Perfect. Je corrigeert haar framing zonder haar tegen te spreken. 'Ontevreden' wordt 'geëvolueerd' — dat is een heel ander gesprek. En je begint met waardering, niet met een klacht."
+      },
+      {
+        text: "\"Ja, ik zit er al een tijdje mee. Het is gewoon niet meer houdbaar met wat ik verdien en wat ik allemaal doe.\"",
+        rating: "orange",
+        label: "Risicovol",
+        feedback: "Eerlijk, maar je bevestigt haar framing van 'ontevreden.' Nu is het een gesprek over een probleem in plaats van over een kans. En 'niet meer houdbaar' klinkt als een dreigement voordat het gesprek begonnen is."
+      },
+      {
+        text: "\"Ontevreden? Nee, ik heb gewoon de marktdata opgezocht en dan zie je toch duidelijk dat ik echt onderbetaald ben voor wat ik doe.\"",
+        rating: "red",
+        label: "Vermijden",
+        feedback: "Te confronterend. 'Onderbetaald' is een beschuldiging. Stien gaat in de verdediging en het gesprek wordt een debat over of het loon eerlijk is, in plaats van een gezamenlijke blik op de toekomst."
+      }
+    ]
+  },
+  {
+    id: 2,
+    stien: "Oké, ik begrijp dat je rol geëvolueerd is. Maar €5.500... Jorgo, dat is echt een serieus bedrag. Dat is bijna €1.400 meer dan nu.",
+    context: "De pushback op het bedrag. Dit is het moment waarop je anker onder druk staat. Hoe je nu reageert bepaalt of €5.500 het referentiepunt blijft.",
+    options: [
+      {
+        text: "\"Ik snap dat het een grote stap lijkt. Maar kijk even naar de tabel in het document: €5.500 zit in het midden van wat de markt betaalt voor een Creative Director. Ik vraag niet het maximum — ik vraag een bescheiden positie binnen die range.\"",
+        rating: "green",
+        label: "Sterk",
+        feedback: "Je erkent haar gevoel ('ik snap dat het veel lijkt') maar brengt het onmiddellijk terug naar de feiten. De tabel doet het werk — je hoeft niet te argumenteren, je wijst naar de data."
+      },
+      {
+        text: "\"Ik weet het. Maar als je kijkt naar wat ik allemaal doe — de drie pijlers, de webinars, de AI-implementatie — dan is het eigenlijk nog conservatief.\"",
+        rating: "orange",
+        label: "Risicovol",
+        feedback: "Inhoudelijk juist, maar je mist de erkenning van haar bezorgdheid. Als je meteen gaat beargumenteren zonder eerst te luisteren, voelt het voor Stien als een debat, niet als een gesprek."
+      },
+      {
+        text: "\"Ja, maar als je het doorrekent is het voor Clavis ook maar €1.738 extra per maand aan loonkost. Dat is te overzien voor een bedrijf als Clavis.\"",
+        rating: "red",
+        label: "Vermijden",
+        feedback: "Je vertelt Stien wat Clavis wel of niet kan betalen. Dat is haar terrein, niet het jouwe. Het komt over als betweterig en ondermijnt de respectvolle toon die je tot nu toe hebt opgebouwd."
+      }
+    ]
+  },
+  {
+    id: 3,
+    stien: "Maar Jorgo, eerlijk, wat is het minste waarmee je zou kunnen leven? Ik moet weten of dit haalbaar is voordat ik verder ga.",
+    context: "De minimum-vraag. Dit is het gevaarlijkste moment. Elk getal dat je nu noemt wordt het plafond.",
+    options: [
+      {
+        text: "\"Ik vind het moeilijk om daar één getal op te plakken, want het hangt van het totaalplaatje af — het bruto, de vergoedingen, het groeipad. Wat ik wel kan zeggen is dat ik het heb doorgerekend met de huur die eraan komt en twee kinderen, en dat het echt substantieel moet zijn. Ik heb het voorstel niet voor niets op €5.500 gezet.\"",
+        rating: "green",
+        label: "Sterk",
+        feedback: "Gouden antwoord. Je noemt geen getal, je deelt je realiteit, en je brengt het anker terug op €5.500. 'Ik heb het niet voor niets op €5.500 gezet' zegt alles zonder een minimum te noemen."
+      },
+      {
+        text: "\"Ik denk dat €5.200 het absolute minimum is waarmee het voor mij werkbaar zou zijn.\"",
+        rating: "red",
+        label: "Vermijden",
+        feedback: "Je hebt net je ondergrens weggegeven. Stien denkt nu niet meer aan €5.500 — ze denkt aan €5.200, of misschien zelfs iets daaronder. Je hebt tegen jezelf onderhandeld."
+      },
+      {
+        text: "\"Ik wil liever horen wat er voor Clavis mogelijk is, dan dat ik tegen mezelf onderhandel. Wat denk jij dat haalbaar is?\"",
+        rating: "green",
+        label: "Sterk",
+        feedback: "Uitstekend. Je kaatst de bal terug zonder onvriendelijk te zijn. 'Tegen mezelf onderhandelen' is eerlijk en herkenbaar. En je vraagt Stien om het eerste bod te doen — dat is strategisch slim."
+      }
+    ]
+  },
+  {
+    id: 4,
+    stien: "Oké... ik denk dat ik €4.800 kan doen. Dat is toch al bijna €700 erbij. Maar meer zit er echt niet in.",
+    context: "Het tegenbod. €4.800 is onder je minimum van €5.200. Hoe reageer je zonder de relatie te beschadigen?",
+    options: [
+      {
+        text: "\"Ik waardeer dat je hier serieus naar kijkt, Stien, en €700 is zeker niet niets. Maar ik wil eerlijk zijn: ik ga volgend jaar alleen wonen met twee kinderen, en een huurwoning in de regio kost al snel €1.300 per maand. Ik heb het doorgerekend, en onder de €5.000 lukt het gewoon niet. Kunnen we kijken of we ergens in het midden uitkomen, eventueel met een concreet groeipad erbij?\"",
+        rating: "green",
+        label: "Sterk",
+        feedback: "Je waardeert haar bod, deelt je realiteit zonder een exact minimum te noemen ('onder de €5.000'), en opent een deur via het groeipad. Het woord 'samen' ontbreekt hier maar 'kunnen we kijken' doet hetzelfde."
+      },
+      {
+        text: "\"Dat is niet genoeg. De marktdata is duidelijk: ik zit nu al €400 tot €1.400 onder de markt.\"",
+        rating: "red",
+        label: "Vermijden",
+        feedback: "Te bot. Je verwerpt haar bod zonder haar moeite te erkennen. 'Dat is niet genoeg' sluit de deur. Stien voelt zich niet gehoord en gaat in de verdediging."
+      },
+      {
+        text: "\"Dank je. Mag ik er een paar dagen over nadenken? Ik wil dit goed laten landen en doorrekenen wat het concreet betekent voor mijn situatie.\"",
+        rating: "green",
+        label: "Sterk",
+        feedback: "Heel sterk als je voelt dat het gesprek vastloopt. Je neemt geen beslissing onder druk, je toont respect, en je houdt de deur open. Stien krijgt ook tijd om intern te kijken of er meer mogelijk is."
+      }
+    ]
+  },
+  {
+    id: 5,
+    stien: "De titel Creative Director, daar kan ik zeker in meekomen. Maar ik kan het loon daar niet meteen aan koppelen.",
+    context: "Titel wel, bedrag niet. Dit klinkt als een compromis, maar het is een valkuil: een titel zonder loon is een lege belofte.",
+    options: [
+      {
+        text: "\"Ik waardeer dat je openstaat voor de titel. Maar een titel zonder bijhorend loon is een erkenning op papier, niet in de praktijk. De titel en het loon horen samen — het ene onderbouwt het andere. Kunnen we kijken naar een startbedrag nu met een concreet groeipad erbij?\"",
+        rating: "green",
+        label: "Sterk",
+        feedback: "Je accepteert het halve aanbod niet als een heel aanbod. De zin 'het ene onderbouwt het andere' herinnert Stien aan haar eigen logica — zij zei eerder dat een titelwijziging nodig is om een loonsaanpassing te verantwoorden."
+      },
+      {
+        text: "\"Oké, als de titel alvast kan veranderen, is dat een goede eerste stap. Dan kijken we later naar het loon.\"",
+        rating: "red",
+        label: "Vermijden",
+        feedback: "Je geeft je sterkste onderhandelingstroef weg voor niets. De titel was het vehikel voor de loonsaanpassing. Als je die loskoppelt, heb je geen hefboom meer voor het bedrag. 'Later' wordt 'nooit'."
+      },
+      {
+        text: "\"Ik begrijp dat het een grote stap is. Maar wat als we het gefaseerd aanpakken — de titel nu, een eerste verhoging per mei, en een groeipad richting het marktconforme niveau? Dan hoeft niet alles tegelijk.\"",
+        rating: "green",
+        label: "Sterk",
+        feedback: "Slim compromis. Je accepteert dat het niet in één keer hoeft, maar je houdt de titel en het loon gekoppeld. De fasering geeft Stien ademruimte zonder dat jij je kernpunt opgeeft."
+      }
+    ]
+  },
+  {
+    id: 6,
+    stien: "Maar Jorgo, je zit nu al toch mooi €500 boven het minimum-barema. We zijn maar een KMO. Ik gun je het, maar ik moet realistisch zijn.",
+    context: "Het barema + KMO-argument. De twee meest voorspelbare tegenargumenten, samen in één zin.",
+    options: [
+      {
+        text: "\"Je hebt gelijk dat ik boven het barema zit. Maar dat barema is het wettelijk minimum voor élke bediende in Klasse D — ook een startende medewerker. Het zegt niets over de breedte van mijn rol. En wat betreft de KMO-realiteit: ik vraag niet het loon van een creative director bij een groot mediabedrijf. €5.500 zit aan de onderkant van de markt, niet aan de bovenkant.\"",
+        rating: "green",
+        label: "Sterk",
+        feedback: "Je erkent beide punten en weerlegt ze zonder te confronteren. Het barema-argument ontleed je met één feit (het geldt voor iedereen). Het KMO-argument pareer je door te tonen dat je vraag al bescheiden is."
+      },
+      {
+        text: "\"Het barema is irrelevant, Stien. Dat is een minimum dat niets te maken heeft met wat ik doe. En als Clavis me niet kan betalen wat ik waard ben, dan moet ik misschien elders gaan kijken.\"",
+        rating: "red",
+        label: "Vermijden",
+        feedback: "Je verwerpt haar argument als irrelevant (respectloos) en dreigt met vertrek (onnodig). Het gesprek is nu beschadigd. Stien voelt zich aangevallen en gaat muren optrekken."
+      },
+      {
+        text: "\"Ik begrijp de KMO-realiteit. Maar kijk het zo: ik doe het werk van meerdere mensen. Als ik morgen vertrek en je moet dat vervangen, dan betaal je voor drie of vier profielen apart een veelvoud van wat ik nu vraag. Dit voorstel is niet de duurste optie — het is de goedkoopste.\"",
+        rating: "green",
+        label: "Sterk",
+        feedback: "Het retentie-argument, warm gebracht. Je dreigt niet met vertrek — je stelt een rekensom voor. Stien kan dit niet weerleggen, want het is waar. En 'de goedkoopste optie' reframed het hele gesprek."
+      }
+    ]
+  },
+  {
+    id: 7,
+    stien: "Ik moet hier intern over overleggen met Filips. Ik kan je nu niet meteen een antwoord geven.",
+    context: "De afsluiter. Stien verwijst naar intern overleg. Hoe sluit je het gesprek af zodat het momentum behouden blijft?",
+    options: [
+      {
+        text: "\"Dat begrijp ik helemaal. Neem de tijd die je nodig hebt. Ik wil alleen meegeven dat dit voor mij echt belangrijk is — niet alleen het bedrag, maar ook het signaal dat mijn rol gezien en gewaardeerd wordt. Ik hoor graag van je wanneer je er klaar voor bent.\"",
+        rating: "green",
+        label: "Sterk",
+        feedback: "Perfecte afsluiter. Je geeft ruimte, je herhaalt het emotionele kernpunt (gezien en gewaardeerd), en je sluit warm af. Stien gaat het gesprek met Filips in met jouw woorden in haar hoofd."
+      },
+      {
+        text: "\"Oké. Maar kan je me een indicatie geven van wanneer ik iets mag verwachten? Want dit is vrij dringend voor mij.\"",
+        rating: "orange",
+        label: "Risicovol",
+        feedback: "Begrijpelijk, maar 'vrij dringend' zet druk op Stien op het slechtste moment — ze heeft net gezegd dat ze tijd nodig heeft. Beter om de urgentie te laten voelen via het document dan via tijdsdruk."
+      },
+      {
+        text: "\"Goed. Stien, ik wil nog één ding zeggen: ik wil heel graag bij Clavis blijven. Dit voorstel is er niet ondanks Clavis, maar juist omdát ik hier wil blijven. Ik hoop dat dat duidelijk is.\"",
+        rating: "green",
+        label: "Sterk",
+        feedback: "Krachtig en persoonlijk. Je eindigt met loyaliteit, niet met een eis. De zin 'omdát ik hier wil blijven' is het sterkste wat je kunt zeggen — het reframed het hele voorstel als een daad van betrokkenheid."
+      }
+    ]
+  }
+];
+
+let currentScene = 0;
+let answers = [];
+
+function render() {
+  const app = document.getElementById('app');
+  
+  if (currentScene >= scenes.length) {
+    renderEnd(app);
+    return;
+  }
+
+  const scene = scenes[currentScene];
+  const progress = ((currentScene) / scenes.length) * 100;
+  const answered = answers[currentScene] !== undefined;
+
+  let html = `
+    <div class="header">
+      <div class="header-label">Gesprekssimulator</div>
+      <h1>Loongesprek met Stien</h1>
+      <p>Kies je reactie en leer van de feedback</p>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" style="width: ${progress}%"></div></div>
+    <div class="scene-counter">SCÈNE ${currentScene + 1} VAN ${scenes.length}</div>
+    <div class="chat-area">
+      <div class="bubble bubble-stien">
+        <div class="speaker">Stien</div>
+        ${scene.stien}
+      </div>
+      <div class="context-box">${scene.context}</div>
+      <div class="options-container">
+        <div class="options-label">Hoe reageer je?</div>
+  `;
+
+  scene.options.forEach((opt, i) => {
+    const isSelected = answered && answers[currentScene] === i;
+    const showResult = answered;
+    const selectedClass = showResult ? opt.rating : '';
+    const dimmed = showResult && answers[currentScene] !== i ? 'style="opacity: 0.5;"' : '';
+    
+    html += `
+      <div class="option-btn ${selectedClass}" ${dimmed} onclick="selectOption(${i})">
+        ${opt.text}
+        ${showResult ? `<div class="rating">${opt.label}</div>` : ''}
+      </div>
+    `;
+
+    if (showResult && answers[currentScene] === i) {
+      html += `<div class="feedback feedback-${opt.rating}">${opt.feedback}</div>`;
+    }
+  });
+
+  html += `</div>`; // close options-container
+
+  if (answered) {
+    // Show all feedback for non-selected options too
+    scene.options.forEach((opt, i) => {
+      if (answers[currentScene] !== i) {
+        html += `
+          <div style="opacity: 0.6; margin-top: 4px;">
+            <div class="feedback feedback-${opt.rating}" style="border-style: dashed;">
+              <strong style="color: ${opt.rating === 'green' ? 'var(--green)' : opt.rating === 'orange' ? 'var(--orange)' : 'var(--red)'};">${opt.label}:</strong> ${opt.feedback}
+            </div>
+          </div>
+        `;
+      }
+    });
+
+    html += `
+      <div class="nav-buttons">
+        <button class="nav-btn" onclick="retry()">Opnieuw</button>
+        <button class="nav-btn primary" onclick="next()">${currentScene < scenes.length - 1 ? 'Volgende scène →' : 'Bekijk resultaat →'}</button>
+      </div>
+    `;
+  }
+
+  html += `</div>`; // close chat-area
+  app.innerHTML = html;
+  
+  if (answered) {
+    setTimeout(() => {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }, 100);
+  }
+}
+
+function selectOption(index) {
+  if (answers[currentScene] !== undefined) return;
+  answers[currentScene] = index;
+  render();
+}
+
+function next() {
+  currentScene++;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  setTimeout(render, 300);
+}
+
+function retry() {
+  answers[currentScene] = undefined;
+  render();
+}
+
+function renderEnd(app) {
+  let greens = 0, oranges = 0, reds = 0;
+  answers.forEach((ansIdx, sceneIdx) => {
+    const rating = scenes[sceneIdx].options[ansIdx].rating;
+    if (rating === 'green') greens++;
+    else if (rating === 'orange') oranges++;
+    else reds++;
+  });
+
+  const score = Math.round((greens / scenes.length) * 100);
+
+  let message = '';
+  if (greens >= 6) message = 'Je bent er klaar voor. Vertrouw op jezelf maandag.';
+  else if (greens >= 4) message = 'Goede basis. Oefen de scènes waar je oranje of rood scoorde nog even.';
+  else message = 'Loop de scènes nog een paar keer door. De antwoorden zitten er al in — ze moeten alleen nog automatisch worden.';
+
+  app.innerHTML = `
+    <div class="header">
+      <div class="header-label">Gesprekssimulator</div>
+      <h1>Loongesprek met Stien</h1>
+    </div>
+    <div class="restart-section">
+      <h2>Resultaat</h2>
+      <div class="score-display">${score}%</div>
+      <div class="score-breakdown">
+        <div class="score-item"><div class="dot dot-green"></div> ${greens} sterk</div>
+        <div class="score-item"><div class="dot dot-orange"></div> ${oranges} risicovol</div>
+        <div class="score-item"><div class="dot dot-red"></div> ${reds} vermijden</div>
+      </div>
+      <p>${message}</p>
+      <button class="nav-btn primary" onclick="restart()" style="margin-top: 20px;">Opnieuw spelen</button>
+    </div>
+  `;
+}
+
+function restart() {
+  currentScene = 0;
+  answers = [];
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  setTimeout(render, 300);
+}
+
+render();
+</script>
+</body>
+</html>
