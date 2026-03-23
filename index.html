@@ -11,530 +11,411 @@
   --surface: #16213e;
   --surface2: #1c2a4a;
   --accent: #4a9eff;
-  --accent-glow: rgba(74, 158, 255, 0.15);
   --green: #4ade80;
-  --green-bg: rgba(74, 222, 128, 0.1);
-  --green-border: rgba(74, 222, 128, 0.3);
+  --green-bg: rgba(74, 222, 128, 0.08);
+  --green-border: rgba(74, 222, 128, 0.25);
   --orange: #fb923c;
-  --orange-bg: rgba(251, 146, 60, 0.1);
-  --orange-border: rgba(251, 146, 60, 0.3);
+  --orange-bg: rgba(251, 146, 60, 0.08);
+  --orange-border: rgba(251, 146, 60, 0.25);
   --red: #f87171;
-  --red-bg: rgba(248, 113, 113, 0.1);
-  --red-border: rgba(248, 113, 113, 0.3);
+  --red-bg: rgba(248, 113, 113, 0.08);
+  --red-border: rgba(248, 113, 113, 0.25);
   --text: #e2e8f0;
   --text-dim: #94a3b8;
   --text-bright: #f8fafc;
+  --stien-purple: #c4a6e8;
   --stien-bg: #2d2040;
-  --stien-border: rgba(168, 130, 220, 0.3);
+  --stien-border: rgba(168, 130, 220, 0.25);
 }
-
 * { margin: 0; padding: 0; box-sizing: border-box; }
-
-body {
-  font-family: 'DM Sans', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-.container {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 20px 16px 100px;
-}
-
-/* Header */
-.header {
-  text-align: center;
-  padding: 40px 0 30px;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-  margin-bottom: 30px;
-}
-
-.header-label {
-  font-size: 11px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--accent);
-  font-weight: 600;
-  margin-bottom: 12px;
-}
-
-.header h1 {
-  font-family: 'DM Serif Display', serif;
-  font-size: 28px;
-  color: var(--text-bright);
-  font-weight: 400;
-  line-height: 1.3;
-}
-
-.header p {
-  color: var(--text-dim);
-  font-size: 14px;
-  margin-top: 8px;
-}
-
-/* Progress */
-.progress-bar {
-  width: 100%;
-  height: 3px;
-  background: rgba(255,255,255,0.06);
-  border-radius: 2px;
-  margin-bottom: 30px;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-
-.progress-fill {
-  height: 100%;
-  background: var(--accent);
-  border-radius: 2px;
-  transition: width 0.6s ease;
-  box-shadow: 0 0 12px rgba(74, 158, 255, 0.4);
-}
-
-.scene-counter {
-  text-align: center;
-  font-size: 12px;
-  color: var(--text-dim);
-  margin-bottom: 24px;
-  letter-spacing: 1px;
-}
-
-/* Chat bubbles */
-.chat-area {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.bubble {
-  max-width: 88%;
-  padding: 16px 20px;
-  border-radius: 16px;
-  line-height: 1.6;
-  font-size: 15px;
-  animation: fadeUp 0.4s ease;
-}
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.bubble-stien {
-  align-self: flex-start;
-  background: var(--stien-bg);
-  border: 1px solid var(--stien-border);
-  border-bottom-left-radius: 4px;
-}
-
-.bubble-stien .speaker {
-  font-size: 12px;
-  font-weight: 600;
-  color: #c4a6e8;
-  margin-bottom: 6px;
-  letter-spacing: 0.5px;
-}
-
-.bubble-jorgo {
-  align-self: flex-end;
-  background: var(--surface2);
-  border: 1px solid rgba(74, 158, 255, 0.2);
-  border-bottom-right-radius: 4px;
-}
-
-.bubble-jorgo .speaker {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--accent);
-  margin-bottom: 6px;
-  letter-spacing: 0.5px;
-}
-
-/* Context box */
-.context-box {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 12px;
-  padding: 14px 18px;
-  margin: 8px 0;
-  font-size: 13px;
-  color: var(--text-dim);
-  line-height: 1.5;
-  font-style: italic;
-}
-
-/* Options */
-.options-container {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  animation: fadeUp 0.5s ease 0.3s both;
-}
-
-.options-label {
-  font-size: 12px;
-  color: var(--text-dim);
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  margin-bottom: 4px;
-}
-
-.option-btn {
-  width: 100%;
-  text-align: left;
-  padding: 14px 18px;
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.1);
-  background: var(--surface);
-  color: var(--text);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
-  line-height: 1.5;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  position: relative;
-}
-
-.option-btn:hover {
-  border-color: var(--accent);
-  background: var(--accent-glow);
-  transform: translateX(4px);
-}
-
-.option-btn.selected { pointer-events: none; }
-
-.option-btn.green {
-  border-color: var(--green-border);
-  background: var(--green-bg);
-}
-.option-btn.orange {
-  border-color: var(--orange-border);
-  background: var(--orange-bg);
-}
-.option-btn.red {
-  border-color: var(--red-border);
-  background: var(--red-bg);
-}
-
-.option-btn .rating {
-  display: none;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  margin-top: 8px;
-}
-
-.option-btn.green .rating { display: block; color: var(--green); }
-.option-btn.orange .rating { display: block; color: var(--orange); }
-.option-btn.red .rating { display: block; color: var(--red); }
-
-/* Feedback */
-.feedback {
-  padding: 16px 18px;
-  border-radius: 12px;
-  font-size: 14px;
-  line-height: 1.6;
-  margin-top: 8px;
-  animation: fadeUp 0.4s ease;
-}
-
-.feedback-green {
-  background: var(--green-bg);
-  border: 1px solid var(--green-border);
-  color: var(--green);
-}
-.feedback-orange {
-  background: var(--orange-bg);
-  border: 1px solid var(--orange-border);
-  color: var(--orange);
-}
-.feedback-red {
-  background: var(--red-bg);
-  border: 1px solid var(--red-border);
-  color: var(--red);
-}
-
-/* Navigation */
-.nav-buttons {
-  display: flex;
-  gap: 10px;
-  margin-top: 24px;
-  animation: fadeUp 0.4s ease;
-}
-
-.nav-btn {
-  padding: 12px 24px;
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,0.1);
-  background: var(--surface);
-  color: var(--text);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.nav-btn:hover {
-  border-color: var(--accent);
-  background: var(--accent-glow);
-}
-
-.nav-btn.primary {
-  background: var(--accent);
-  color: #000;
-  border-color: var(--accent);
-  font-weight: 600;
-}
-
-.nav-btn.primary:hover {
-  background: #6bb3ff;
-}
-
-/* Restart */
-.restart-section {
-  text-align: center;
-  padding: 40px 0;
-  animation: fadeUp 0.5s ease;
-}
-
-.restart-section h2 {
-  font-family: 'DM Serif Display', serif;
-  font-size: 24px;
-  color: var(--text-bright);
-  margin-bottom: 8px;
-}
-
-.restart-section p {
-  color: var(--text-dim);
-  font-size: 14px;
-  margin-bottom: 20px;
-}
-
-.score-display {
-  font-size: 48px;
-  font-family: 'DM Serif Display', serif;
-  color: var(--accent);
-  margin: 20px 0;
-}
-
-.score-breakdown {
-  display: flex;
-  justify-content: center;
-  gap: 24px;
-  margin: 16px 0 30px;
-  font-size: 14px;
-}
-
-.score-item { display: flex; align-items: center; gap: 6px; }
-.dot { width: 8px; height: 8px; border-radius: 50%; }
-.dot-green { background: var(--green); }
-.dot-orange { background: var(--orange); }
-.dot-red { background: var(--red); }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+.container { max-width: 680px; margin: 0 auto; padding: 20px 16px 120px; }
+.header { text-align: center; padding: 32px 0 24px; border-bottom: 1px solid rgba(255,255,255,0.06); margin-bottom: 24px; }
+.header-label { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+.header h1 { font-family: 'DM Serif Display', serif; font-size: 26px; color: var(--text-bright); font-weight: 400; }
+.header p { color: var(--text-dim); font-size: 13px; margin-top: 6px; }
+.progress-wrap { position: sticky; top: 0; z-index: 20; background: var(--bg); padding: 8px 0; }
+.progress-bar { width: 100%; height: 3px; background: rgba(255,255,255,0.06); border-radius: 2px; }
+.progress-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.5s ease; }
+.progress-text { text-align: center; font-size: 11px; color: var(--text-dim); margin-top: 6px; letter-spacing: 1px; }
+.phase-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 14px; padding: 6px 12px; background: rgba(74,158,255,0.08); border-radius: 6px; display: inline-block; }
+.scene { animation: fadeIn 0.4s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.stien-bubble { background: var(--stien-bg); border: 1px solid var(--stien-border); border-radius: 16px; border-bottom-left-radius: 4px; padding: 16px 20px; margin-bottom: 12px; max-width: 90%; }
+.stien-name { font-size: 11px; font-weight: 700; color: var(--stien-purple); letter-spacing: 0.5px; margin-bottom: 6px; text-transform: uppercase; }
+.stien-text { font-size: 15px; line-height: 1.6; }
+.context { font-size: 13px; color: var(--text-dim); font-style: italic; line-height: 1.5; padding: 10px 0 16px; border-bottom: 1px solid rgba(255,255,255,0.04); margin-bottom: 16px; }
+.options-label { font-size: 11px; color: var(--text-dim); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px; }
+.option-card { border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; margin-bottom: 10px; overflow: hidden; transition: all 0.2s ease; cursor: pointer; }
+.option-card:hover:not(.revealed) { border-color: var(--accent); transform: translateX(3px); }
+.option-card.revealed { cursor: default; }
+.option-card.revealed.green { border-color: var(--green-border); background: var(--green-bg); }
+.option-card.revealed.orange { border-color: var(--orange-border); background: var(--orange-bg); }
+.option-card.revealed.red { border-color: var(--red-border); background: var(--red-bg); }
+.option-card.revealed.dimmed { opacity: 0.45; }
+.option-card.revealed.dimmed .option-feedback { display: none; }
+.option-card.revealed.selected .option-feedback { display: block; }
+.option-top { padding: 14px 18px; }
+.option-text { font-size: 14px; line-height: 1.55; color: var(--text); }
+.option-badge { display: none; margin-top: 8px; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+.revealed .option-badge { display: inline-block; }
+.green .option-badge { color: var(--green); }
+.orange .option-badge { color: var(--orange); }
+.red .option-badge { color: var(--red); }
+.option-feedback { display: none; padding: 12px 18px 14px; font-size: 13px; line-height: 1.55; border-top: 1px solid rgba(255,255,255,0.06); }
+.green .option-feedback { color: var(--green); border-top-color: var(--green-border); }
+.orange .option-feedback { color: var(--orange); border-top-color: var(--orange-border); }
+.red .option-feedback { color: var(--red); border-top-color: var(--red-border); }
+.show-all-btn { display: none; width: 100%; padding: 10px; margin-top: 6px; background: none; border: 1px dashed rgba(255,255,255,0.1); border-radius: 10px; color: var(--text-dim); font-family: 'DM Sans', sans-serif; font-size: 13px; cursor: pointer; transition: all 0.2s ease; }
+.show-all-btn:hover { border-color: var(--accent); color: var(--accent); }
+.nav-buttons { display: flex; gap: 10px; margin-top: 20px; }
+.nav-btn { padding: 12px 24px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: var(--surface); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s ease; }
+.nav-btn:hover { border-color: var(--accent); }
+.nav-btn.primary { background: var(--accent); color: #000; border-color: var(--accent); font-weight: 600; }
+.nav-btn.primary:hover { background: #6bb3ff; }
+.end-screen { text-align: center; padding: 40px 0; }
+.end-screen h2 { font-family: 'DM Serif Display', serif; font-size: 24px; color: var(--text-bright); margin-bottom: 8px; }
+.end-screen p { color: var(--text-dim); font-size: 14px; margin-bottom: 20px; line-height: 1.5; }
+.score-big { font-size: 52px; font-family: 'DM Serif Display', serif; color: var(--accent); margin: 16px 0; }
+.score-row { display: flex; justify-content: center; gap: 20px; margin: 12px 0 28px; font-size: 14px; }
+.score-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 5px; vertical-align: middle; }
 </style>
 </head>
 <body>
 <div class="container" id="app"></div>
-
 <script>
 const scenes = [
+  // FASE 1: OPENING EN TOON
   {
-    id: 1,
+    phase: "Fase 1: Opening en toon",
     stien: "Jorgo, ik heb je document gelezen. Dat is... nogal wat. Ik wist niet dat je zo ontevreden was over je loon.",
-    context: "De opening. Stien heeft het document gelezen en reageert. De toon die je hier zet, kleurt het hele gesprek.",
+    context: "De opening. Stien reageert op het document. De toon die je hier zet, kleurt het hele gesprek.",
     options: [
-      {
-        text: "\"Ontevreden is niet het juiste woord, Stien. Ik ben heel graag bij Clavis en ik waardeer wat we samen opbouwen. Maar mijn rol is de voorbije jaren flink geëvolueerd, en ik denk dat het tijd is om het loonpakket daarmee in lijn te brengen.\"",
-        rating: "green",
-        label: "Sterk",
-        feedback: "Perfect. Je corrigeert haar framing zonder haar tegen te spreken. 'Ontevreden' wordt 'geëvolueerd' — dat is een heel ander gesprek. En je begint met waardering, niet met een klacht."
-      },
-      {
-        text: "\"Ja, ik zit er al een tijdje mee. Het is gewoon niet meer houdbaar met wat ik verdien en wat ik allemaal doe.\"",
-        rating: "orange",
-        label: "Risicovol",
-        feedback: "Eerlijk, maar je bevestigt haar framing van 'ontevreden.' Nu is het een gesprek over een probleem in plaats van over een kans. En 'niet meer houdbaar' klinkt als een dreigement voordat het gesprek begonnen is."
-      },
-      {
-        text: "\"Ontevreden? Nee, ik heb gewoon de marktdata opgezocht en dan zie je toch duidelijk dat ik echt onderbetaald ben voor wat ik doe.\"",
-        rating: "red",
-        label: "Vermijden",
-        feedback: "Te confronterend. 'Onderbetaald' is een beschuldiging. Stien gaat in de verdediging en het gesprek wordt een debat over of het loon eerlijk is, in plaats van een gezamenlijke blik op de toekomst."
-      }
+      { text: "\"Ontevreden is niet het juiste woord, Stien. Ik ben heel graag bij Clavis en ik waardeer wat we samen opbouwen. Maar mijn rol is de voorbije jaren flink geëvolueerd, en ik denk dat het tijd is om het loonpakket daarmee in lijn te brengen.\"", rating: "green", label: "Sterk", feedback: "Perfect. Je corrigeert haar framing zonder haar tegen te spreken. 'Ontevreden' wordt 'geëvolueerd' \u2014 dat is een heel ander gesprek. En je begint met waardering, niet met een klacht." },
+      { text: "\"Ja, ik zit er al een tijdje mee. Het is gewoon niet meer houdbaar met wat ik verdien en wat ik allemaal doe.\"", rating: "orange", label: "Risicovol", feedback: "Eerlijk, maar je bevestigt haar framing van 'ontevreden.' Nu is het een gesprek over een probleem in plaats van over een kans. En 'niet meer houdbaar' klinkt als een dreigement voordat het gesprek begonnen is." },
+      { text: "\"Ontevreden? Nee, ik heb gewoon de marktdata opgezocht en dan zie je toch duidelijk dat ik echt onderbetaald ben voor wat ik doe.\"", rating: "red", label: "Vermijden", feedback: "Te confronterend. 'Onderbetaald' is een beschuldiging. Stien gaat in de verdediging en het gesprek wordt een debat over of het loon eerlijk is, in plaats van een gezamenlijke blik op de toekomst." }
     ]
   },
   {
-    id: 2,
-    stien: "Oké, ik begrijp dat je rol geëvolueerd is. Maar €5.500... Jorgo, dat is echt een serieus bedrag. Dat is bijna €1.400 meer dan nu.",
-    context: "De pushback op het bedrag. Dit is het moment waarop je anker onder druk staat. Hoe je nu reageert bepaalt of €5.500 het referentiepunt blijft.",
+    phase: "Fase 1: Opening en toon",
+    stien: "Ik ben eerlijk gezegd een beetje gekwetst dat je dit zo formeel aanpakt in plaats van gewoon met mij te komen praten.",
+    context: "Stien voelt zich overvallen door de formaliteit. Jullie relatie is kameraadschappelijk \u2014 ze had verwacht dat je gewoon zou binnenwandelen.",
     options: [
-      {
-        text: "\"Ik snap dat het een grote stap lijkt. Maar kijk even naar de tabel in het document: €5.500 zit in het midden van wat de markt betaalt voor een Creative Director. Ik vraag niet het maximum — ik vraag een bescheiden positie binnen die range.\"",
-        rating: "green",
-        label: "Sterk",
-        feedback: "Je erkent haar gevoel ('ik snap dat het veel lijkt') maar brengt het onmiddellijk terug naar de feiten. De tabel doet het werk — je hoeft niet te argumenteren, je wijst naar de data."
-      },
-      {
-        text: "\"Ik weet het. Maar als je kijkt naar wat ik allemaal doe — de drie pijlers, de webinars, de AI-implementatie — dan is het eigenlijk nog conservatief.\"",
-        rating: "orange",
-        label: "Risicovol",
-        feedback: "Inhoudelijk juist, maar je mist de erkenning van haar bezorgdheid. Als je meteen gaat beargumenteren zonder eerst te luisteren, voelt het voor Stien als een debat, niet als een gesprek."
-      },
-      {
-        text: "\"Ja, maar als je het doorrekent is het voor Clavis ook maar €1.738 extra per maand aan loonkost. Dat is te overzien voor een bedrijf als Clavis.\"",
-        rating: "red",
-        label: "Vermijden",
-        feedback: "Je vertelt Stien wat Clavis wel of niet kan betalen. Dat is haar terrein, niet het jouwe. Het komt over als betweterig en ondermijnt de respectvolle toon die je tot nu toe hebt opgebouwd."
-      }
+      { text: "\"Dat spijt me, dat was zeker niet mijn bedoeling. Ik heb het juist zo uitgewerkt omdat ik het serieus neem \u2014 en omdat ik vind dat jij verdient om het volledige plaatje te zien, niet alleen een onderbuikgevoel van mij. Maar het gesprek dat we nu voeren, dat \u00eds gewoon praten. Het document is de onderbouwing, dit gesprek is wat telt.\"", rating: "green", label: "Sterk", feedback: "Je erkent haar gevoel, legt uit waarom je het zo hebt aangepakt, en brengt het terug naar de menselijke relatie. De laatste zin is de sleutel: het document is het middel, het gesprek is het doel." },
+      { text: "\"Ik wilde het juist goed voorbereiden zodat we een productief gesprek kunnen voeren. Anders wordt het een discussie zonder basis.\"", rating: "orange", label: "Risicovol", feedback: "Inhoudelijk klopt dit, maar het klinkt alsof je zegt: zonder mijn document zou dit gesprek niets voorstellen. Dat is niet wat Stien wil horen." },
+      { text: "\"Ik vond dat een informeel gesprek niet gepast was gezien de omvang van wat ik wil bespreken.\"", rating: "red", label: "Vermijden", feedback: "Te afstandelijk. Je bevestigt precies wat Stien vreest: dat het niet meer informeel is. Het gesprek wordt meteen formeler en kouder." }
     ]
   },
   {
-    id: 3,
-    stien: "Maar Jorgo, eerlijk, wat is het minste waarmee je zou kunnen leven? Ik moet weten of dit haalbaar is voordat ik verder ga.",
-    context: "De minimum-vraag. Dit is het gevaarlijkste moment. Elk getal dat je nu noemt wordt het plafond.",
+    phase: "Fase 1: Opening en toon",
+    stien: "Jorgo, ik maak me eerlijk gezegd zorgen. Is er iets aan de hand?",
+    context: "Stien kent je goed, ze weet waarschijnlijk iets over je priv\u00e9situatie, en ze interpreteert het voorstel als een noodsignaal.",
     options: [
-      {
-        text: "\"Ik vind het moeilijk om daar één getal op te plakken, want het hangt van het totaalplaatje af — het bruto, de vergoedingen, het groeipad. Wat ik wel kan zeggen is dat ik het heb doorgerekend met de huur die eraan komt en twee kinderen, en dat het echt substantieel moet zijn. Ik heb het voorstel niet voor niets op €5.500 gezet.\"",
-        rating: "green",
-        label: "Sterk",
-        feedback: "Gouden antwoord. Je noemt geen getal, je deelt je realiteit, en je brengt het anker terug op €5.500. 'Ik heb het niet voor niets op €5.500 gezet' zegt alles zonder een minimum te noemen."
-      },
-      {
-        text: "\"Ik denk dat €5.200 het absolute minimum is waarmee het voor mij werkbaar zou zijn.\"",
-        rating: "red",
-        label: "Vermijden",
-        feedback: "Je hebt net je ondergrens weggegeven. Stien denkt nu niet meer aan €5.500 — ze denkt aan €5.200, of misschien zelfs iets daaronder. Je hebt tegen jezelf onderhandeld."
-      },
-      {
-        text: "\"Ik wil liever horen wat er voor Clavis mogelijk is, dan dat ik tegen mezelf onderhandel. Wat denk jij dat haalbaar is?\"",
-        rating: "green",
-        label: "Sterk",
-        feedback: "Uitstekend. Je kaatst de bal terug zonder onvriendelijk te zijn. 'Tegen mezelf onderhandelen' is eerlijk en herkenbaar. En je vraagt Stien om het eerste bod te doen — dat is strategisch slim."
-      }
+      { text: "\"Lief dat je dat vraagt. Het gaat goed met me. Dit voorstel komt niet uit nood \u2014 het komt uit het besef dat mijn rol de voorbije jaren enorm is gegroeid en dat het tijd is om dat formeel te verankeren. De timing heeft inderdaad te maken met het feit dat er het komende jaar wat dingen veranderen in mijn leven, en dat ik daarvoor een stabiele basis nodig heb. Maar de inhoud van het voorstel staat los van mijn priv\u00e9situatie \u2014 het gaat over wat ik doe en wat dat waard is.\"", rating: "green", label: "Sterk", feedback: "Warm, eerlijk, en je scheidt priv\u00e9 van professioneel zonder iets te verbergen. De zin 'staat los van mijn priv\u00e9situatie' is cruciaal: het voorkomt dat Stien het voorstel gaat zien als een hulpvraag." },
+      { text: "\"Nee hoor, alles ok\u00e9. Ik heb gewoon de tijd genomen om dit goed voor te bereiden.\"", rating: "orange", label: "Risicovol", feedback: "Te afwerend. Stien stelt een oprechte vraag en je sluit de deur. Dat voelt oneerlijk in een relatie die gebaseerd is op vertrouwen." },
+      { text: "\"Ja, er verandert veel in mijn leven. Ik ga binnenkort alleen wonen met twee kinderen en ik kan het simpelweg niet meer betalen met wat ik nu verdien.\"", rating: "red", label: "Vermijden", feedback: "Te kwetsbaar. Je maakt het voorstel tot een smeekbede. Stien gaat van modus 'directeur' naar modus 'vriendin' \u2014 en vanuit die modus geeft ze misschien een kleine geste, maar geen structurele herwaardering." }
     ]
   },
   {
-    id: 4,
-    stien: "Oké... ik denk dat ik €4.800 kan doen. Dat is toch al bijna €700 erbij. Maar meer zit er echt niet in.",
-    context: "Het tegenbod. €4.800 is onder je minimum van €5.200. Hoe reageer je zonder de relatie te beschadigen?",
+    phase: "Fase 1: Opening en toon",
+    stien: "*Stien leest het document, kijkt op, en zegt niets. Stilte.*",
+    context: "Veel mensen zijn niet voorbereid op stilte. Ze vullen het op met concessies of relativering. Dat is precies wat je niet moet doen.",
     options: [
-      {
-        text: "\"Ik waardeer dat je hier serieus naar kijkt, Stien, en €700 is zeker niet niets. Maar ik wil eerlijk zijn: ik ga volgend jaar alleen wonen met twee kinderen, en een huurwoning in de regio kost al snel €1.300 per maand. Ik heb het doorgerekend, en onder de €5.000 lukt het gewoon niet. Kunnen we kijken of we ergens in het midden uitkomen, eventueel met een concreet groeipad erbij?\"",
-        rating: "green",
-        label: "Sterk",
-        feedback: "Je waardeert haar bod, deelt je realiteit zonder een exact minimum te noemen ('onder de €5.000'), en opent een deur via het groeipad. Het woord 'samen' ontbreekt hier maar 'kunnen we kijken' doet hetzelfde."
-      },
-      {
-        text: "\"Dat is niet genoeg. De marktdata is duidelijk: ik zit nu al €400 tot €1.400 onder de markt.\"",
-        rating: "red",
-        label: "Vermijden",
-        feedback: "Te bot. Je verwerpt haar bod zonder haar moeite te erkennen. 'Dat is niet genoeg' sluit de deur. Stien voelt zich niet gehoord en gaat in de verdediging."
-      },
-      {
-        text: "\"Dank je. Mag ik er een paar dagen over nadenken? Ik wil dit goed laten landen en doorrekenen wat het concreet betekent voor mijn situatie.\"",
-        rating: "green",
-        label: "Sterk",
-        feedback: "Heel sterk als je voelt dat het gesprek vastloopt. Je neemt geen beslissing onder druk, je toont respect, en je houdt de deur open. Stien krijgt ook tijd om intern te kijken of er meer mogelijk is."
-      }
+      { text: "Niets zeggen. Tel in je hoofd tot tien. Als ze na tien seconden nog niets zegt, vraag je rustig: \"Wat zijn je eerste gedachten?\"", rating: "green", label: "Sterk", feedback: "De stilte is niet vijandig \u2014 Stien verwerkt. Laat haar de ruimte. 'Wat zijn je eerste gedachten?' is open, uitnodigend, en legt de bal bij haar zonder druk." },
+      { text: "\"Ik weet dat het veel is. We hoeven niet alles vandaag te beslissen. Het is meer een aanzet tot gesprek.\"", rating: "red", label: "Vermijden", feedback: "Je begint je eigen voorstel af te zwakken terwijl Stien nog niets heeft gezegd. Ze was misschien gewoon aan het nadenken \u2014 en nu heb je het zelf al gerelativeerd." },
+      { text: "\"Ik ben benieuwd wat je ervan vindt. Zal ik even door de hoofdlijnen lopen?\"", rating: "orange", label: "Risicovol", feedback: "Niet slecht, maar je vult de stilte op terwijl dat niet nodig was. Soms is het krachtigste wat je kunt doen: wachten." }
+    ]
+  },
+  // FASE 2: INHOUDELIJKE PUSHBACK
+  {
+    phase: "Fase 2: Inhoudelijke pushback",
+    stien: "\u20AC5.500 is echt een serieus bedrag, Jorgo. Dat is bijna \u20AC1.400 meer dan nu.",
+    context: "De pushback op het bedrag. Dit is het moment waarop je anker onder druk staat.",
+    options: [
+      { text: "\"Ik snap dat het een grote stap lijkt. Maar kijk even naar de tabel in het document: \u20AC5.500 zit in het midden van wat de markt betaalt voor een Creative Director. Ik vraag niet het maximum \u2014 ik vraag een bescheiden positie binnen die range.\"", rating: "green", label: "Sterk", feedback: "Je erkent haar gevoel, maar brengt het onmiddellijk terug naar de feiten. De tabel doet het werk \u2014 je hoeft niet te argumenteren, je wijst naar de data." },
+      { text: "\"Ik weet het. Maar als je kijkt naar wat ik allemaal doe \u2014 de drie pijlers, de webinars, de AI-implementatie \u2014 dan is het eigenlijk nog conservatief.\"", rating: "orange", label: "Risicovol", feedback: "Inhoudelijk juist, maar je mist de erkenning van haar bezorgdheid. Als je meteen gaat beargumenteren zonder eerst te luisteren, voelt het voor Stien als een debat, niet als een gesprek." },
+      { text: "\"Ja, maar als je het doorrekent is het voor Clavis ook maar \u20AC1.780 extra per maand aan loonkost. Dat is te overzien voor een bedrijf als Clavis.\"", rating: "red", label: "Vermijden", feedback: "Je vertelt Stien wat Clavis wel of niet kan betalen. Dat is haar terrein, niet het jouwe. Het komt over als betweterig." }
     ]
   },
   {
-    id: 5,
+    phase: "Fase 2: Inhoudelijke pushback",
+    stien: "Ik had eerlijk gezegd niet verwacht dat het z\u00f3 uitgebreid zou zijn. Ik dacht dat het meer een informeel gesprek zou worden.",
+    context: "Stien voelt zich overweldigd door de omvang van het document.",
+    options: [
+      { text: "\"Dat snap ik. Ik wilde het juist goed voorbereiden omdat het voor mij echt belangrijk is \u2014 en omdat ik het gevoel heb dat je verdient om het volledige plaatje te zien, niet alleen een vraag om meer loon. Het document is er om te onderbouwen, niet om druk te zetten. We kunnen het gesprek zo informeel voeren als je wilt.\"", rating: "green", label: "Sterk", feedback: "Je geeft Stien de controle terug over de toon van het gesprek, terwijl je het document positioneert als een hulpmiddel, niet als een aanval." },
+      { text: "\"Ik heb er inderdaad veel werk in gestoken. Maar ik vond het belangrijk om het te onderbouwen met feiten en marktdata.\"", rating: "orange", label: "Risicovol", feedback: "Klopt, maar het klinkt als een verantwoording. Je hoeft je niet te verdedigen voor het feit dat je je goed hebt voorbereid." },
+      { text: "\"Ik wilde vermijden dat het een gesprek zou worden op basis van gevoel. Met cijfers en feiten kunnen we objectiever beslissen.\"", rating: "red", label: "Vermijden", feedback: "Je impliceert dat Stien op gevoel zou beslissen als jij geen document had gemaakt. Dat is denigrerend, ook al bedoel je het niet zo." }
+    ]
+  },
+  {
+    phase: "Fase 2: Inhoudelijke pushback",
+    stien: "Je doet inderdaad veel, maar iedereen hier doet meer dan zijn functie. Dat is nu eenmaal een KMO.",
+    context: "Stien normaliseert jouw situatie. In een KMO doet iedereen meer dan de strikte functieomschrijving.",
+    options: [
+      { text: "\"Dat is waar, en dat is ook wat Clavis sterk maakt. Het verschil is dat mijn rol niet een beetje breder is dan mijn titel \u2014 het zijn drie volledige werkdomeinen die niets met elkaar te maken hebben. En dat is precies wat de functieclassificatie bevestigt: ik sta ingedeeld als Klasse B, ondersteunend. Dat klopt voor geen meter met wat ik doe.\"", rating: "green", label: "Sterk", feedback: "Je erkent haar punt, maar toont het verschil tussen 'iedereen doet iets extra' en 'iemand die structureel drie rollen combineert.' De Klasse B-verwijzing maakt het objectief." },
+      { text: "\"Klopt, maar niemand anders combineert audio, AI, web en marketing in \u00e9\u00e9n persoon.\"", rating: "orange", label: "Risicovol", feedback: "Inhoudelijk sterk, maar het klinkt als een wedstrijd over wie het meeste doet. Dat is niet het gesprek dat je wilt voeren." },
+      { text: "\"Dat is precies het probleem van een KMO: iedereen doet te veel en niemand wordt er correct voor betaald.\"", rating: "red", label: "Vermijden", feedback: "Je bekritiseert het bedrijfsmodel. Stien voelt zich aangevallen als directeur. Het gesprek verschuift van jouw situatie naar een fundamenteel meningsverschil." }
+    ]
+  },
+  {
+    phase: "Fase 2: Inhoudelijke pushback",
+    stien: "Je spreekt over drie pijlers, maar sounddesign is wat we je gevraagd hebben. De rest heb je zelf opgepikt.",
+    context: "Stien herframed je initiatief als iets ongevraagds. Dit kan je bijdrage minimaliseren.",
+    options: [
+      { text: "\"Dat klopt, en ik denk dat dat precies mijn punt is. Ik heb die dingen niet opgepikt omdat ik me verveelde \u2014 ik heb ze opgepikt omdat ik zag dat Clavis het nodig had en niemand anders het deed. De vraag is nu: wil je iemand die dat soort initiatief neemt, belonen als een sound designer of als wat hij werkelijk is?\"", rating: "green", label: "Sterk", feedback: "Je draait het argument om: initiatief nemen is geen bijwerking, het is precies de eigenschap die je waardevol maakt. De slotvraag is retorisch maar krachtig." },
+      { text: "\"Dat klopt gedeeltelijk. Maar sommige dingen zijn me ook expliciet gevraagd \u2014 de studio, de webinars, de AI-workshops.\"", rating: "orange", label: "Risicovol", feedback: "Je gaat in de verdediging en probeert te bewijzen dat het niet allemaal eigen initiatief was. Dat verzwakt je punt: het maakt niet uit wie het idee had, het punt is dat jij het uitvoert." },
+      { text: "\"Als ik alleen had gedaan wat me gevraagd was, had Clavis geen AI-implementatie, geen webinars, en geen mediastudio.\"", rating: "red", label: "Vermijden", feedback: "Klinkt als een dreigement. Stien hoort: 'je zou nergens staan zonder mij.' Dat is misschien waar, maar het is niet iets wat je hardop zegt." }
+    ]
+  },
+  {
+    phase: "Fase 2: Inhoudelijke pushback",
+    stien: "Ik hoor wat je zegt over die Klasse B, maar dat is toch gewoon administratief? Dat heeft toch niets te maken met wat je verdient?",
+    context: "Stien bagatelliseert de classificatie als paperassen.",
+    options: [
+      { text: "\"Het is inderdaad administratief \u2014 maar het is wel de administratie die bepaalt hoe de RSZ en de FOD Financi\u00ebn mijn functie zien. En de CAO van PC 200 zegt letterlijk dat de werkgever verantwoordelijk is voor de juiste indeling op basis van de werkelijk uitgeoefende functie. Het goede nieuws is: als we de titel, de classificatie en het loon samen aanpassen, klopt alles in \u00e9\u00e9n beweging. Dat is makkelijker dan het achteraf te moeten rechtzetten.\"", rating: "green", label: "Sterk", feedback: "Je neemt haar bezorgdheid serieus, geeft de juridische context, en draait het positief: samen aanpassen is makkelijker dan later corrigeren." },
+      { text: "\"Het is meer dan administratief. Het bepaalt mijn barema-minimum en het is wat SD Worx gebruikt voor de loonadministratie.\"", rating: "orange", label: "Risicovol", feedback: "Klopt, maar het klinkt als een les in payroll. Stien wil niet uitgelegd krijgen hoe haar eigen administratie werkt." },
+      { text: "\"Als het puur administratief is, dan is er toch geen reden om het niet aan te passen?\"", rating: "red", label: "Vermijden", feedback: "Slimme comeback, maar te confronterend. Je duwt Stien in een hoek waar ze alleen maar ja kan zeggen \u2014 en niemand houdt ervan om in een hoek geduwd te worden." }
+    ]
+  },
+  {
+    phase: "Fase 2: Inhoudelijke pushback",
+    stien: "Je zit toch al mooi boven het barema. We zijn maar een KMO met beperkte middelen.",
+    context: "Het barema-argument en het KMO-argument samen. De twee meest voorspelbare tegenargumenten.",
+    options: [
+      { text: "\"Je hebt gelijk dat ik boven het barema zit. Maar dat barema is het wettelijk minimum voor een ondersteunende functie \u2014 en we weten allebei dat mijn rol veel verder gaat dan dat. En wat betreft de KMO-realiteit: ik vraag niet het loon van een creative director bij een groot mediabedrijf. \u20AC5.500 zit aan de onderkant van de markt, niet aan de bovenkant.\"", rating: "green", label: "Sterk", feedback: "Je erkent beide punten en weerlegt ze zonder te confronteren. Het barema ontleed je met \u00e9\u00e9n feit. Het KMO-argument pareer je door te tonen dat je vraag al bescheiden is." },
+      { text: "\"Ik begrijp de KMO-realiteit. Maar kijk het zo: ik doe het werk van meerdere mensen. Als ik morgen vertrek en je moet dat vervangen, dan betaal je voor drie of vier profielen apart een veelvoud van wat ik nu vraag. Dit voorstel is niet de duurste optie \u2014 het is de goedkoopste.\"", rating: "green", label: "Sterk", feedback: "Het retentie-argument, warm gebracht. Je dreigt niet met vertrek \u2014 je stelt een rekensom voor. En 'de goedkoopste optie' reframed het hele gesprek." },
+      { text: "\"Het barema is irrelevant, Stien. Dat is een minimum dat niets te maken heeft met wat ik doe. En als Clavis me niet kan betalen wat ik waard ben, dan moet ik misschien elders gaan kijken.\"", rating: "red", label: "Vermijden", feedback: "Je verwerpt haar argument als irrelevant en dreigt met vertrek. Het gesprek is nu beschadigd." }
+    ]
+  },
+  {
+    phase: "Fase 2: Inhoudelijke pushback",
+    stien: "Die Jobat-cijfers, zijn die wel betrouwbaar? Ik ken uitgeverijen waar ze minder betalen.",
+    context: "Stien betwist een specifieke bron.",
+    options: [
+      { text: "\"Dat kan. De ranges die ik gebruik komen uit meerdere bronnen \u2014 Jobat, Robert Half, Indeed, Talent.com. Elke bron apart is een indicatie, maar samen geven ze een consistent beeld. En het klopt dat er uitgeverijen zijn die minder betalen \u2014 die zitten dan aan de onderkant van de range. Mijn voorstel zit in het midden, niet aan de bovenkant.\"", rating: "green", label: "Sterk", feedback: "Je erkent haar punt, toont dat je niet op \u00e9\u00e9n bron leunt, en herpositioneert je voorstel als bescheiden." },
+      { text: "\"Die cijfers komen uit de meest gerespecteerde salarisgidsen in Belgi\u00eb. Robert Half is de standaard voor benchmarking.\"", rating: "orange", label: "Risicovol", feedback: "Inhoudelijk klopt het, maar je klinkt als een professor die zijn bronnen verdedigt. Te veel autoriteitsargument en te weinig dialoog." },
+      { text: "\"Als je bronnen kent die iets anders zeggen, dan hoor ik het graag. Maar tot dan zijn dit de beste data die we hebben.\"", rating: "red", label: "Vermijden", feedback: "Passief-agressief. Je daagt Stien uit om bewijs te leveren. Dat is een debat, geen gesprek." }
+    ]
+  },
+  {
+    phase: "Fase 2: Inhoudelijke pushback",
+    stien: "Je vergelijkt jezelf met Creative Directors bij grote bedrijven. Maar Clavis is geen groot bedrijf.",
+    context: "Stien betwist de vergelijkbaarheid van de benchmarks met de schaal van Clavis.",
+    options: [
+      { text: "\"Klopt, en daarom zit mijn voorstel aan de onderkant van die range, niet aan de bovenkant. De tabel toont ook een range specifiek voor een uitgeverij: \u20AC4.500 tot \u20AC5.500. Bij een groot bedrijf zou ik \u20AC6.500 of meer vragen. Dat doe ik bewust niet \u2014 ik hou rekening met de schaal van Clavis. Maar de markt maakt geen onderscheid in de competenties die nodig zijn.\"", rating: "green", label: "Sterk", feedback: "Je erkent de schaal van Clavis maar scheidt bedrijfsgrootte van expertisewaarde. Sterk en respectvol." },
+      { text: "\"Talent.com rapporteert een gemiddelde van bijna \u20AC7.000 voor deze rol in Belgi\u00eb. Mijn voorstel zit daar ruim onder.\"", rating: "orange", label: "Risicovol", feedback: "Feitelijk sterk, maar het voelt als: 'wees blij dat ik niet meer vraag.' Bewaar dit als tweede lijn als Stien blijft doorduwen." },
+      { text: "\"Kleine bedrijven die groot talent willen houden, moeten competitief betalen. Anders vertrekken die mensen.\"", rating: "red", label: "Vermijden", feedback: "Een dreigement verpakt als algemene wijsheid. Stien hoort: 'betaal me of ik vertrek.' Dat is niet constructief." }
+    ]
+  },
+  // FASE 3: FINANCI\u00cbLE ONDERHANDELING
+  {
+    phase: "Fase 3: Financi\u00eble onderhandeling",
+    stien: "Maar Jorgo, eerlijk, wat is het minste waarmee je zou kunnen leven? Ik moet weten of dit haalbaar is.",
+    context: "De minimum-vraag. Het gevaarlijkste moment. Elk getal dat je noemt wordt het plafond.",
+    options: [
+      { text: "\"Ik vind het moeilijk om daar \u00e9\u00e9n getal op te plakken, want het hangt van het totaalplaatje af \u2014 het bruto, de vergoedingen, het groeipad. Wat ik wel kan zeggen is dat ik het heb doorgerekend met de huur die eraan komt en twee kinderen, en dat het echt substantieel moet zijn. Ik heb het voorstel niet voor niets op \u20AC5.500 gezet.\"", rating: "green", label: "Sterk", feedback: "Je noemt geen getal, je deelt je realiteit, en je brengt het anker terug op \u20AC5.500." },
+      { text: "\"Ik wil liever horen wat er voor Clavis mogelijk is, dan dat ik tegen mezelf onderhandel. Wat denk jij dat haalbaar is?\"", rating: "green", label: "Sterk", feedback: "Je kaatst de bal terug. 'Tegen mezelf onderhandelen' is eerlijk en herkenbaar. En je vraagt Stien om het eerste bod te doen." },
+      { text: "\"Ik denk dat \u20AC5.200 het absolute minimum is waarmee het voor mij werkbaar zou zijn.\"", rating: "red", label: "Vermijden", feedback: "Je hebt net je ondergrens weggegeven. Stien denkt nu niet meer aan \u20AC5.500 \u2014 ze denkt aan \u20AC5.200, of misschien zelfs iets daaronder." }
+    ]
+  },
+  {
+    phase: "Fase 3: Financi\u00eble onderhandeling",
+    stien: "Ja maar, Jorgo, wat kom je NU maandelijks tekort? Misschien kunnen we daar eerst eens naar kijken.",
+    context: "Stien verschuift het gesprek van 'wat is je rol waard' naar 'wat heb je nodig om rond te komen.' Het eerste is een herwaardering, het tweede is een noodmaatregel.",
+    options: [
+      { text: "\"Stien, ik waardeer dat je mee wilt denken. Maar dit voorstel gaat niet over een tekort opvullen \u2014 het gaat over mijn rol en mijn loon in lijn brengen met de realiteit. Als we nu alleen het acute gat dichten, zitten we over een jaar weer aan dezelfde tafel. Ik denk dat we allebei beter af zijn met een structurele oplossing.\"", rating: "green", label: "Sterk", feedback: "Je herkadert het gesprek van noodhulp naar structureel beleid. 'Structureel' is je sleutelwoord." },
+      { text: "\"Het gaat niet om een tekort, het gaat om een kloof tussen wat ik doe en wat ik verdien.\"", rating: "orange", label: "Risicovol", feedback: "Inhoudelijk correct, maar je beantwoordt haar vraag niet en dat voelt als ontwijken." },
+      { text: "\"Eerlijk? Na aftrek van alles hou ik \u20AC2.675 netto over. Daar moet ik straks huur, kinderen, alles van betalen. Dat is gewoon niet genoeg.\"", rating: "red", label: "Vermijden", feedback: "Je beantwoordt de vraag te letterlijk. Nu is het een gesprek over je priv\u00e9financi\u00ebn en niet meer over je professionele waarde." }
+    ]
+  },
+  {
+    phase: "Fase 3: Financi\u00eble onderhandeling",
+    stien: "Ok\u00e9, ik denk dat ik \u20AC4.800 kan doen. Dat is toch al bijna \u20AC700 erbij. Maar meer zit er echt niet in.",
+    context: "Het tegenbod. \u20AC4.800 is onder je minimum van \u20AC5.200. Hoe reageer je zonder de relatie te beschadigen?",
+    options: [
+      { text: "\"Ik waardeer dat je hier serieus naar kijkt, Stien, en \u20AC700 is zeker niet niets. Maar ik wil eerlijk zijn: ik ga volgend jaar alleen wonen met twee kinderen, en een huurwoning in de regio kost al snel \u20AC1.300 per maand. Kunnen we kijken of we ergens in het midden uitkomen, eventueel met een concreet groeipad erbij?\"", rating: "green", label: "Sterk", feedback: "Je waardeert haar bod, deelt je realiteit, en opent een deur via het groeipad." },
+      { text: "\"Dank je. Mag ik er een paar dagen over nadenken? Ik wil dit goed laten landen en doorrekenen wat het concreet betekent voor mijn situatie.\"", rating: "green", label: "Sterk", feedback: "Heel sterk als je voelt dat het gesprek vastloopt. Je neemt geen beslissing onder druk en houdt de deur open." },
+      { text: "\"Dat is niet genoeg. De marktdata is duidelijk: ik zit nu al \u20AC400 tot \u20AC1.400 onder de markt.\"", rating: "red", label: "Vermijden", feedback: "Te bot. Je verwerpt haar bod zonder haar moeite te erkennen. Stien voelt zich niet gehoord." }
+    ]
+  },
+  {
+    phase: "Fase 3: Financi\u00eble onderhandeling",
+    stien: "Wat als we starten met \u20AC5.000 en volgend jaar kijken of we naar \u20AC5.500 kunnen gaan?",
+    context: "Stien komt je tegemoet maar niet helemaal. Dit is waarschijnlijk het meest realistische scenario.",
+    options: [
+      { text: "\"\u20AC5.000 is een serieuze stap en ik waardeer dat. Kunnen we daar dan een concreet groeipad aan koppelen \u2014 \u20AC5.500 per januari 2027 \u2014 en dat vastleggen in het addendum bij de arbeidsovereenkomst? Niet als dwang, maar zodat we allebei weten waar we aan toe zijn. Dan heb ik iets om op te bouwen en heb jij de tijd om het intern te spreiden.\"", rating: "green", label: "Sterk", feedback: "Je waardeert het bod, koppelt er een concrete afspraak aan, en vraagt om het vast te leggen. Perfect." },
+      { text: "\"Ok\u00e9, dat klinkt als een goed startpunt. Laten we dat doen.\"", rating: "orange", label: "Risicovol", feedback: "Je accepteert te snel zonder voorwaarden. \u20AC5.000 zonder vastgelegd groeipad is een eindpunt, geen startpunt." },
+      { text: "\"\u20AC5.000 is nog steeds onder het midden van de marktrange. Ik had gehoopt dat we dichter bij \u20AC5.500 konden landen.\"", rating: "red", label: "Vermijden", feedback: "Je verwerpt een redelijk tegenbod en duwt meteen naar meer. Stien heeft net een stap gezet en voelt dat het niet genoeg is. Dat ontmoedigt." }
+    ]
+  },
+  {
+    phase: "Fase 3: Financi\u00eble onderhandeling",
     stien: "De titel Creative Director, daar kan ik zeker in meekomen. Maar ik kan het loon daar niet meteen aan koppelen.",
-    context: "Titel wel, bedrag niet. Dit klinkt als een compromis, maar het is een valkuil: een titel zonder loon is een lege belofte.",
+    context: "Titel wel, bedrag niet. Dit klinkt als een compromis maar het is een valkuil: een titel zonder loon is een lege belofte.",
     options: [
-      {
-        text: "\"Ik waardeer dat je openstaat voor de titel. Maar een titel zonder bijhorend loon is een erkenning op papier, niet in de praktijk. De titel en het loon horen samen — het ene onderbouwt het andere. Kunnen we kijken naar een startbedrag nu met een concreet groeipad erbij?\"",
-        rating: "green",
-        label: "Sterk",
-        feedback: "Je accepteert het halve aanbod niet als een heel aanbod. De zin 'het ene onderbouwt het andere' herinnert Stien aan haar eigen logica — zij zei eerder dat een titelwijziging nodig is om een loonsaanpassing te verantwoorden."
-      },
-      {
-        text: "\"Oké, als de titel alvast kan veranderen, is dat een goede eerste stap. Dan kijken we later naar het loon.\"",
-        rating: "red",
-        label: "Vermijden",
-        feedback: "Je geeft je sterkste onderhandelingstroef weg voor niets. De titel was het vehikel voor de loonsaanpassing. Als je die loskoppelt, heb je geen hefboom meer voor het bedrag. 'Later' wordt 'nooit'."
-      },
-      {
-        text: "\"Ik begrijp dat het een grote stap is. Maar wat als we het gefaseerd aanpakken — de titel nu, een eerste verhoging per mei, en een groeipad richting het marktconforme niveau? Dan hoeft niet alles tegelijk.\"",
-        rating: "green",
-        label: "Sterk",
-        feedback: "Slim compromis. Je accepteert dat het niet in één keer hoeft, maar je houdt de titel en het loon gekoppeld. De fasering geeft Stien ademruimte zonder dat jij je kernpunt opgeeft."
-      }
+      { text: "\"Ik waardeer dat je openstaat voor de titel. Maar een titel zonder bijhorend loon is een erkenning op papier, niet in de praktijk. De titel en het loon horen samen \u2014 het ene onderbouwt het andere. Kunnen we kijken naar een startbedrag nu met een concreet groeipad erbij?\"", rating: "green", label: "Sterk", feedback: "Je accepteert het halve aanbod niet als een heel aanbod. 'Het ene onderbouwt het andere' herinnert Stien aan haar eigen logica." },
+      { text: "\"Ik begrijp dat het een grote stap is. Maar wat als we het gefaseerd aanpakken \u2014 de titel nu, een eerste verhoging per mei, en een groeipad richting het marktconforme niveau? Dan hoeft niet alles tegelijk.\"", rating: "green", label: "Sterk", feedback: "Slim compromis. Je accepteert dat het niet in \u00e9\u00e9n keer hoeft, maar je houdt titel en loon gekoppeld." },
+      { text: "\"Ok\u00e9, als de titel alvast kan veranderen, is dat een goede eerste stap. Dan kijken we later naar het loon.\"", rating: "red", label: "Vermijden", feedback: "Je geeft je sterkste onderhandelingstroef weg voor niets. De titel was het vehikel voor de loonsaanpassing. 'Later' wordt 'nooit.'" }
     ]
   },
   {
-    id: 6,
-    stien: "Maar Jorgo, je zit nu al toch mooi €500 boven het minimum-barema. We zijn maar een KMO. Ik gun je het, maar ik moet realistisch zijn.",
-    context: "Het barema + KMO-argument. De twee meest voorspelbare tegenargumenten, samen in één zin.",
+    phase: "Fase 3: Financi\u00eble onderhandeling",
+    stien: "Kunnen we niet eerst de titel aanpassen en dan over een half jaar opnieuw samenzitten voor het loon?",
+    context: "Stien probeert te faseren \u2014 maar zo dat het loon naar later verschuift.",
     options: [
-      {
-        text: "\"Je hebt gelijk dat ik boven het barema zit. Maar dat barema is het wettelijk minimum voor élke bediende in Klasse D — ook een startende medewerker. Het zegt niets over de breedte van mijn rol. En wat betreft de KMO-realiteit: ik vraag niet het loon van een creative director bij een groot mediabedrijf. €5.500 zit aan de onderkant van de markt, niet aan de bovenkant.\"",
-        rating: "green",
-        label: "Sterk",
-        feedback: "Je erkent beide punten en weerlegt ze zonder te confronteren. Het barema-argument ontleed je met één feit (het geldt voor iedereen). Het KMO-argument pareer je door te tonen dat je vraag al bescheiden is."
-      },
-      {
-        text: "\"Het barema is irrelevant, Stien. Dat is een minimum dat niets te maken heeft met wat ik doe. En als Clavis me niet kan betalen wat ik waard ben, dan moet ik misschien elders gaan kijken.\"",
-        rating: "red",
-        label: "Vermijden",
-        feedback: "Je verwerpt haar argument als irrelevant (respectloos) en dreigt met vertrek (onnodig). Het gesprek is nu beschadigd. Stien voelt zich aangevallen en gaat muren optrekken."
-      },
-      {
-        text: "\"Ik begrijp de KMO-realiteit. Maar kijk het zo: ik doe het werk van meerdere mensen. Als ik morgen vertrek en je moet dat vervangen, dan betaal je voor drie of vier profielen apart een veelvoud van wat ik nu vraag. Dit voorstel is niet de duurste optie — het is de goedkoopste.\"",
-        rating: "green",
-        label: "Sterk",
-        feedback: "Het retentie-argument, warm gebracht. Je dreigt niet met vertrek — je stelt een rekensom voor. Stien kan dit niet weerleggen, want het is waar. En 'de goedkoopste optie' reframed het hele gesprek."
-      }
+      { text: "\"Ik begrijp dat je het in stappen wilt aanpakken. Maar het document legt uit waarom titel en loon samen horen \u2014 de titel verantwoordt het loon, en het loon maakt de titel geloofwaardig. Kunnen we kijken naar een startbedrag nu, al is het niet het volledige bedrag, gekoppeld aan de titelwijziging?\"", rating: "green", label: "Sterk", feedback: "Je houdt titel en loon gekoppeld zonder rigide te zijn. Het startbedrag geeft Stien ademruimte." },
+      { text: "\"Een half jaar is lang. Kan dat niet wat sneller \u2014 bijvoorbeeld drie maanden?\"", rating: "orange", label: "Risicovol", feedback: "Je onderhandelt over de timing in plaats van over het principe. Door over maanden te onderhandelen, accepteer je impliciet de ontkoppeling." },
+      { text: "\"Ok\u00e9, dat lijkt me een werkbaar plan.\"", rating: "red", label: "Vermijden", feedback: "Zelfde valkuil: je geeft de titel weg zonder loon. Over een half jaar heb je geen hefboom meer." }
     ]
   },
   {
-    id: 7,
-    stien: "Ik moet hier intern over overleggen met Filips. Ik kan je nu niet meteen een antwoord geven.",
-    context: "De afsluiter. Stien verwijst naar intern overleg. Hoe sluit je het gesprek af zodat het momentum behouden blijft?",
+    phase: "Fase 3: Financi\u00eble onderhandeling",
+    stien: "Wat als we je een eenmalige bonus geven in plaats van een structurele verhoging?",
+    context: "Stien probeert de kost eenmalig te maken in plaats van recurrent.",
     options: [
-      {
-        text: "\"Dat begrijp ik helemaal. Neem de tijd die je nodig hebt. Ik wil alleen meegeven dat dit voor mij echt belangrijk is — niet alleen het bedrag, maar ook het signaal dat mijn rol gezien en gewaardeerd wordt. Ik hoor graag van je wanneer je er klaar voor bent.\"",
-        rating: "green",
-        label: "Sterk",
-        feedback: "Perfecte afsluiter. Je geeft ruimte, je herhaalt het emotionele kernpunt (gezien en gewaardeerd), en je sluit warm af. Stien gaat het gesprek met Filips in met jouw woorden in haar hoofd."
-      },
-      {
-        text: "\"Oké. Maar kan je me een indicatie geven van wanneer ik iets mag verwachten? Want dit is vrij dringend voor mij.\"",
-        rating: "orange",
-        label: "Risicovol",
-        feedback: "Begrijpelijk, maar 'vrij dringend' zet druk op Stien op het slechtste moment — ze heeft net gezegd dat ze tijd nodig heeft. Beter om de urgentie te laten voelen via het document dan via tijdsdruk."
-      },
-      {
-        text: "\"Goed. Stien, ik wil nog één ding zeggen: ik wil heel graag bij Clavis blijven. Dit voorstel is er niet ondanks Clavis, maar juist omdát ik hier wil blijven. Ik hoop dat dat duidelijk is.\"",
-        rating: "green",
-        label: "Sterk",
-        feedback: "Krachtig en persoonlijk. Je eindigt met loyaliteit, niet met een eis. De zin 'omdát ik hier wil blijven' is het sterkste wat je kunt zeggen — het reframed het hele voorstel als een daad van betrokkenheid."
-      }
+      { text: "\"Ik snap de logica, maar een bonus lost het structurele probleem niet op. Volgend jaar sta ik dan weer op \u20AC4.110 en hebben we hetzelfde gesprek. En eerlijk: de titel zonder bijhorend loon is moeilijk vol te houden \u2014 als collega's zien dat ik Creative Director ben maar hetzelfde verdien als daarvoor, ondermijnt dat de geloofwaardigheid van de titel.\"", rating: "green", label: "Sterk", feedback: "Je weerlegt het elegant: een bonus is tijdelijk, het probleem is structureel. De verwijzing naar collega's raakt een punt dat Stien als directeur begrijpt." },
+      { text: "\"Een bonus is welkom, maar het verandert niets aan de maandelijkse realiteit. Kan het misschien allebei \u2014 een bonus nu en een structurele verhoging erbij?\"", rating: "orange", label: "Risicovol", feedback: "Je vraagt nu meer dan het oorspronkelijke voorstel. Dat kan als hebzuchtig overkomen." },
+      { text: "\"Nee, dat heeft geen zin. Een bonus is leuk maar lost niets op.\"", rating: "red", label: "Vermijden", feedback: "Te bot. Je verwerpt haar idee zonder nuance. Stien probeerde mee te denken en wordt afgewezen." }
+    ]
+  },
+  {
+    phase: "Fase 3: Financi\u00eble onderhandeling",
+    stien: "Wat als we je een extra vakantiedag per week geven in plaats van het volledige bedrag? Dan werk je vier dagen.",
+    context: "Stien biedt het 4/5-scenario aan vanuit haar kant. Het is een manier om minder te betalen.",
+    options: [
+      { text: "\"Ik waardeer het creatieve meedenken. Maar het werk dat ik nu doe, doe ik niet in vier dagen. Als ik op vier dagen ga werken, moet er iets wegvallen \u2014 en de vraag is wat. Ik denk dat het voor Clavis waardevoller is om mij vijf dagen te hebben tegen een correct loon. Maar als je het als tijdelijke tussenstap ziet \u2014 met een duidelijk pad naar het volledige bedrag bij vijf dagen \u2014 dan wil ik er over nadenken.\"", rating: "green", label: "Sterk", feedback: "Je sluit de deur niet, maar je toont het praktische probleem. De laatste zin koppelt er een voorwaarde aan." },
+      { text: "\"Dat is een interessant idee. Laat me er even over nadenken.\"", rating: "orange", label: "Risicovol", feedback: "Je koopt tijd, maar je laat een gevaarlijk idee op tafel liggen zonder het te kalibreren." },
+      { text: "\"Nee, ik wil vijf dagen werken voor een correct loon. Minder werken is geen oplossing.\"", rating: "red", label: "Vermijden", feedback: "Te rigide. Je verwerpt een creatief voorstel zonder nuance. Stien voelt dat er met jou niet te praten valt." }
+    ]
+  },
+  // FASE 4: ORGANISATORISCHE BEZWAREN
+  {
+    phase: "Fase 4: Organisatorische bezwaren",
+    stien: "Ik ben bang dat als ik jou dit geef, de anderen ook aan mijn deur komen kloppen.",
+    context: "Stien denkt aan precedentwerking. Ze draagt de HR-pet voor iedereen.",
+    options: [
+      { text: "\"Dat begrijp ik. Maar dit is precies waarom de titelwijziging zo belangrijk is. Als mijn titel Creative Director wordt en mijn classificatie verschuift naar Klasse D, dan is de loonsaanpassing geen gunst \u2014 het is een logisch gevolg van een andere functie. De titel beschermt jou net zoveel als mij.\"", rating: "green", label: "Sterk", feedback: "Je draait het om: de titel is niet het probleem, de titel is de oplossing voor het precedentprobleem." },
+      { text: "\"Ik denk niet dat collega's dat zullen doen. Iedereen weet dat mijn rol anders is.\"", rating: "orange", label: "Risicovol", feedback: "Je minimaliseert een re\u00eble zorg van Stien. Ze kent haar team beter dan jij." },
+      { text: "\"Dat is toch een probleem van de andere collega's, niet van mij?\"", rating: "red", label: "Vermijden", feedback: "Ego\u00efstisch. Je toont geen begrip voor Stien's positie als directeur die voor het hele team moet zorgen." }
+    ]
+  },
+  {
+    phase: "Fase 4: Organisatorische bezwaren",
+    stien: "Je weet dat we net een moeilijk jaar achter de rug hebben. De timing is niet ideaal.",
+    context: "Stien verwijst naar de financi\u00eble situatie van Clavis.",
+    options: [
+      { text: "\"Ik besef dat de timing niet perfect is \u2014 maar wanneer is die dat wel? Mijn rol is niet minder geworden in een moeilijk jaar, integendeel. Maar als de timing echt een probleem is, dan sta ik open voor een gefaseerde aanpak \u2014 een eerste stap nu en het volledige bedrag binnen zes maanden. Wat ik moeilijk kan, is nog een jaar wachten.\"", rating: "green", label: "Sterk", feedback: "Je erkent de realiteit maar weigert uitstel zonder alternatief. De gefaseerde aanpak geeft Stien een uitweg." },
+      { text: "\"Ik begrijp dat. Wanneer zou het dan w\u00e9l een goed moment zijn?\"", rating: "orange", label: "Risicovol", feedback: "Redelijke vraag, maar je geeft Stien de controle over de timing. Het antwoord kan 'volgend jaar' zijn." },
+      { text: "\"Mijn situatie wacht niet op een beter jaar, Stien.\"", rating: "red", label: "Vermijden", feedback: "Te hard. Je toont geen begrip voor de bedrijfsrealiteit en het klinkt als een ultimatum." }
+    ]
+  },
+  {
+    phase: "Fase 4: Organisatorische bezwaren",
+    stien: "Ik wil dit echt doen, maar Filips moet hier ook in mee. En ik weet niet of hij hiervoor openstaat.",
+    context: "Stien schuift de beslissing door naar iemand anders.",
+    options: [
+      { text: "\"Ik begrijp dat. Wat zou jij nodig hebben om dit aan Filips voor te leggen op een manier die voor hem werkbaar is? Misschien kan ik daarbij helpen.\"", rating: "green", label: "Sterk", feedback: "Je maakt jezelf een bondgenoot. Stien voelt dat je haar helpt om het intern te verkopen." },
+      { text: "\"Denk je dat het zou helpen als ik ook even met Filips praat?\"", rating: "orange", label: "Risicovol", feedback: "Goed bedoeld, maar het kan overkomen alsof je Stien's autoriteit omzeilt." },
+      { text: "\"Ik had gehoopt dat jij dit kon beslissen. Moet Filips hier echt bij betrokken worden?\"", rating: "red", label: "Vermijden", feedback: "Je betwist de interne beslissingsstructuur en ondermijnt Stien's positie." }
+    ]
+  },
+  {
+    phase: "Fase 4: Organisatorische bezwaren",
+    stien: "Ik wil heel transparant zijn: ik heb op dit moment geen budget. Ik zou het moeten voorleggen aan de raad van bestuur.",
+    context: "Stien escaleert naar een formeel orgaan.",
+    options: [
+      { text: "\"Ik waardeer die transparantie. Als het via de raad van bestuur moet, dan moet dat. Wat kan ik doen om jou te helpen dat gesprek voor te bereiden? Het document is zo opgebouwd dat het ook voor hen leesbaar is. Hebben we een idee van wanneer de raad samenkomt?\"", rating: "green", label: "Sterk", feedback: "Je maakt jezelf een bondgenoot en vraagt meteen naar een concrete datum. Dat voorkomt eindeloos uitstel." },
+      { text: "\"Ok\u00e9. Heb je een idee wanneer je dat kunt voorleggen?\"", rating: "orange", label: "Risicovol", feedback: "Redelijk, maar je laat het initiatief volledig bij Stien. Zonder iets aan te bieden om haar te helpen, is het passief wachten." },
+      { text: "\"De raad van bestuur? Voor een loonsverhoging van \u00e9\u00e9n persoon? Dat lijkt me wat overdreven.\"", rating: "red", label: "Vermijden", feedback: "Je bekritiseert het proces. Of het overdreven is of niet \u2014 het is hoe Clavis werkt." }
+    ]
+  },
+  {
+    phase: "Fase 4: Organisatorische bezwaren",
+    stien: "Ik heb hier even met Leon over gesproken, en hij vindt dat we voorzichtig moeten zijn met dit soort precedenten.",
+    context: "Leon (general manager) is ingeschakeld en is conservatiever. Stien verschuilt zich mogelijk achter zijn mening.",
+    options: [
+      { text: "\"Ik begrijp dat Leon vanuit zijn rol voorzichtig is. Maar het voorstel cre\u00ebert geen precedent \u2014 het corrigeert een situatie die uniek is. Niemand anders bij Clavis combineert drie werkdomeinen in \u00e9\u00e9n functie. De titelwijziging en herclassificatie maken dat zichtbaar. Zou het helpen als ik met Leon samen aan tafel zit om dat toe te lichten?\"", rating: "green", label: "Sterk", feedback: "Je biedt aan om het zelf uit te leggen in plaats van het via Stien te laten filteren. Dat toont zelfvertrouwen en ontlast Stien." },
+      { text: "\"Wat vindt Leon dan precies bezorgwekkend? Misschien kan ik die bezorgdheid wegnemen.\"", rating: "orange", label: "Risicovol", feedback: "Redelijk, maar je gaat in op Leon's mening via Stien als tussenpersoon. Dat kan ongemakkelijk worden." },
+      { text: "\"Leon kent mijn dossier niet. Ik zou liever hebben dat hij het document eerst leest voor hij een oordeel velt.\"", rating: "red", label: "Vermijden", feedback: "Je bekritiseert Leon's oordeelsvermogen terwijl hij er niet bij zit. Stien voelt zich in het midden gezet." }
+    ]
+  },
+  {
+    phase: "Fase 4: Organisatorische bezwaren",
+    stien: "Ik vind het knap dat je dit zo hebt uitgewerkt. Maar ik ben ook een beetje verrast. Ik had z\u00f3veel niet verwacht.",
+    context: "Stien is verrast door de omvang van je vraag. Ze had misschien \u20AC4.500 of \u20AC4.800 verwacht.",
+    options: [
+      { text: "\"Ik waardeer die eerlijkheid. En ik begrijp dat het als een grote sprong voelt. Maar kijk even naar de tabel: \u20AC5.500 is niet het maximum van de markt \u2014 het is het midden. En mijn huidig loon van \u20AC4.110 zit dichter bij het barema-minimum dan bij wat de markt betaalt voor deze rol. De sprong voelt groot omdat de kloof al jaren groeit. Hoe langer we wachten, hoe groter die sprong wordt.\"", rating: "green", label: "Sterk", feedback: "Je erkent haar verrassing en reframed de sprong als een achterstand die is opgebouwd. De laatste zin is krachtig." },
+      { text: "\"Ik heb bewust hoog ingezet zodat er ruimte is om te onderhandelen.\"", rating: "red", label: "Vermijden", feedback: "Je geeft toe dat \u20AC5.500 niet je echte verwachting is. Stien denkt nu: wat is dan w\u00e9l zijn echte verwachting? Je hebt je eigen anker ondermijnd." },
+      { text: "\"Mijn loon is de voorbije jaren zeker gegroeid, en dat waardeer ik. Maar mijn rol is sneller gegroeid dan mijn loon. De kloof tussen wat ik doe en wat ik verdien is elk jaar groter geworden. Dat is wat dit voorstel structureel rechtzet.\"", rating: "green", label: "Sterk", feedback: "Eerlijk, warm, en het erkent wat Clavis al gedaan heeft. Maar het brengt het terug naar het kernpunt." }
+    ]
+  },
+  // FASE 5: AFSLUITING
+  {
+    phase: "Fase 5: Afsluiting",
+    stien: "Heb je al met andere bedrijven gesproken? Ik vraag het gewoon eerlijk.",
+    context: "Stien peilt of je een alternatief hebt. Dit is een gevoelig moment.",
+    options: [
+      { text: "\"Nee. Dit voorstel is er niet omdat ik elders wil gaan. Het is er omdat ik hier wil blijven en ik wil dat dat haalbaar is. Ik heb w\u00e9l naar de markt gekeken om te weten wat mijn profiel waard is \u2014 dat zie je in de tabel. Maar ik heb geen gesprekken gevoerd met andere werkgevers. Dit gesprek voer ik met jou, niet met hen.\"", rating: "green", label: "Sterk", feedback: "Eerlijk en loyaal. Je toont dat je je huiswerk hebt gedaan zonder te dreigen." },
+      { text: "\"Ik heb rondgekeken, ja. Maar ik wil eerst dit gesprek voeren, want Clavis is mijn eerste keuze.\"", rating: "orange", label: "Risicovol", feedback: "Je impliceert dat je alternatieven hebt. Dat kan als subtiel dreigement overkomen, ook al zeg je dat Clavis je eerste keuze is." },
+      { text: "\"Dat is niet relevant voor dit gesprek, Stien.\"", rating: "red", label: "Vermijden", feedback: "Te defensief. Stien stelt een eerlijke vraag en je blokkeert het gesprek. Dat wekt wantrouwen." }
+    ]
+  },
+  {
+    phase: "Fase 5: Afsluiting",
+    stien: "Ik wil je niet kwijt. Maar ik heb ook een verantwoordelijkheid naar het bedrijf. Geef me wat tijd.",
+    context: "Stien zegt drie dingen tegelijk: ze waardeert je, ze kan niet meteen beslissen, en ze vraagt ruimte. Dit is geen nee \u2014 dit is een opening.",
+    options: [
+      { text: "\"Dat is precies wat ik wil horen: dat je er serieus mee aan de slag gaat. Neem de tijd die je nodig hebt. Het enige wat ik vraag is dat we er een concreet moment aan koppelen \u2014 kunnen we bijvoorbeeld over twee weken opnieuw samenzitten?\"", rating: "green", label: "Sterk", feedback: "Perfecte afsluiter. Je geeft ruimte en koppelt er een datum aan." },
+      { text: "\"Goed. Stien, ik wil nog \u00e9\u00e9n ding zeggen: ik wil heel graag bij Clavis blijven. Dit voorstel is er niet ondanks Clavis, maar juist omd\u00e1t ik hier wil blijven. Ik hoop dat dat duidelijk is.\"", rating: "green", label: "Sterk", feedback: "Krachtig en persoonlijk. Je eindigt met loyaliteit. De zin 'omd\u00e1t ik hier wil blijven' reframed het hele voorstel als betrokkenheid." },
+      { text: "\"Ok\u00e9. Maar kan je me een indicatie geven van wanneer ik iets mag verwachten? Want dit is vrij dringend voor mij.\"", rating: "orange", label: "Risicovol", feedback: "Begrijpelijk, maar 'vrij dringend' zet druk op Stien op het slechtste moment \u2014 ze heeft net gezegd dat ze tijd nodig heeft." }
+    ]
+  },
+  {
+    phase: "Fase 5: Afsluiting",
+    stien: "Stien stemt meteen in met je voorstel.",
+    context: "Onwaarschijnlijk, maar mogelijk. Het risico is dat je zo verrast bent dat je begint te relativeren of te bedanken alsof je een gunst hebt gekregen.",
+    options: [
+      { text: "\"Dat maakt me heel blij, Stien. Dank je. Zullen we dan meteen afspreken hoe we het praktisch aanpakken met SD Worx?\"", rating: "green", label: "Sterk", feedback: "Kort, warm, en meteen naar de uitvoering. Niet gaan overtreffen of extra dingen vragen in de euforie." },
+      { text: "\"Wow, dat had ik niet verwacht. Echt? Ben je zeker?\"", rating: "orange", label: "Risicovol", feedback: "Je toont verbazing en twijfel aan haar beslissing. Dat kan Stien doen twijfelen aan haar eigen keuze." },
+      { text: "\"Super! En als we dan toch bezig zijn \u2014 die woning-VAA is ook heel interessant...\"", rating: "red", label: "Vermijden", feedback: "Je hebt net ja gekregen en je vraagt meteen meer. Dat ondermijnt het vertrouwen en het goede gevoel van het moment." }
+    ]
+  },
+  {
+    phase: "Fase 5: Afsluiting",
+    stien: "Stien wordt emotioneel. \"Jorgo, ik voel me een beetje schuldig dat het zo ver is gekomen.\"",
+    context: "Stien is niet boos, maar geraakt. Dit is een kwetsbaar moment voor haar.",
+    options: [
+      { text: "\"Daar hoef je je niet schuldig over te voelen. Dit is niet iets dat iemand fout heeft gedaan \u2014 het is gewoon geleidelijk gegroeid. En het feit dat we hier nu samen zitten om het recht te zetten, zegt alles over hoe Clavis met mensen omgaat. Laten we vooruitkijken.\"", rating: "green", label: "Sterk", feedback: "Je neemt de schuld weg, normaliseert de situatie, en eindigt met een positieve blik. 'Laten we vooruitkijken' sluit het emotionele moment af zonder het te negeren." },
+      { text: "\"Ik vind het fijn dat je dat zegt. Het is inderdaad lang blijven aanslepen.\"", rating: "orange", label: "Risicovol", feedback: "Je bevestigt het schuldgevoel in plaats van het weg te nemen. 'Lang blijven aanslepen' klinkt als een verwijt." },
+      { text: "\"Tja, het had inderdaad eerder mogen gebeuren. Maar goed, we zijn er nu.\"", rating: "red", label: "Vermijden", feedback: "Je bevestigt de schuld expliciet. Stien voelt zich veroordeeld op een moment van kwetsbaarheid. Dat beschadigt het vertrouwen." }
+    ]
+  },
+  {
+    phase: "Fase 5: Afsluiting",
+    stien: "Jorgo, \u20AC4.800 is het beste wat we nu kunnen doen. Volgend jaar moeten we het weer eens bekijken. Punt.",
+    context: "Stien trekt een harde grens. Geen ruimte voor meer. Dit is het moeilijkste moment van het hele gesprek.",
+    options: [
+      { text: "\"Stien, ik waardeer dat je dit doet. \u20AC4.800 is een stap, en ik zie dat je je best doet binnen wat er nu mogelijk is. Ik wil daar niet ondankbaar voor zijn.\" *Korte pauze.* \"Maar ik moet eerlijk zijn: vanaf volgend jaar sta ik er alleen voor. Huur, kinderen, alles op \u00e9\u00e9n inkomen. Als ik vandaag \u20AC4.800 accepteer zonder te weten waar ik in 2027 aan toe ben, dan leef ik de komende maanden met een onzekerheid die ik mijn gezin niet kan aandoen. Wat ik vraag is niet meer geld vandaag. Wat ik vraag is duidelijkheid over morgen. Kunnen we afspreken dat we in september 2026 samenzitten om de stap naar \u20AC5.200 of \u20AC5.500 per januari 2027 concreet te maken? En kunnen we dat vastleggen in het addendum \u2014 niet het bedrag, maar het evaluatiemoment en de intentie?\"", rating: "green", label: "Sterk", feedback: "Je begint met waardering, deelt je realiteit zonder te dreigen, en verschuift je vraag van 'meer geld nu' naar 'duidelijkheid over wanneer.' Het woord 'intentie' is de sleutel: het is geen bindende belofte, maar het is ook geen lege woorden." },
+      { text: "\"Dank je. Mag ik er een paar dagen over nadenken?\"", rating: "orange", label: "Risicovol", feedback: "Veilig. Het geeft je tijd. Maar het laat de deur open zonder iets concreets te vragen over 2027. Als je na drie dagen terugkomt met dezelfde vraag, ben je weer bij af." },
+      { text: "\"Stien, dat gaat niet lukken. \u20AC4.800 zonder perspectief is niet werkbaar voor mij.\"", rating: "red", label: "Vermijden", feedback: "Je verwerpt het bod zonder alternatief en zonder waardering voor de stap die Stien zet. Het gesprek eindigt in een impasse." }
     ]
   }
 ];
 
 let currentScene = 0;
 let answers = [];
+let showingAll = [];
+let lastPhase = "";
 
 function render() {
   const app = document.getElementById('app');
-  
-  if (currentScene >= scenes.length) {
-    renderEnd(app);
-    return;
-  }
-
+  if (currentScene >= scenes.length) { renderEnd(app); return; }
   const scene = scenes[currentScene];
-  const progress = ((currentScene) / scenes.length) * 100;
+  const progress = (currentScene / scenes.length) * 100;
   const answered = answers[currentScene] !== undefined;
+  const allVisible = showingAll[currentScene] === true;
+  const newPhase = scene.phase !== lastPhase;
+  lastPhase = scene.phase;
 
   let html = `
     <div class="header">
@@ -542,127 +423,117 @@ function render() {
       <h1>Loongesprek met Stien</h1>
       <p>Kies je reactie en leer van de feedback</p>
     </div>
-    <div class="progress-bar"><div class="progress-fill" style="width: ${progress}%"></div></div>
-    <div class="scene-counter">SCÈNE ${currentScene + 1} VAN ${scenes.length}</div>
-    <div class="chat-area">
-      <div class="bubble bubble-stien">
-        <div class="speaker">Stien</div>
-        ${scene.stien}
+    <div class="progress-wrap">
+      <div class="progress-bar"><div class="progress-fill" style="width:${progress}%"></div></div>
+      <div class="progress-text">SC\u00c8NE ${currentScene + 1} VAN ${scenes.length}</div>
+    </div>
+    <div class="scene">
+      <div class="phase-label">${scene.phase}</div>
+      <div class="stien-bubble">
+        <div class="stien-name">Stien</div>
+        <div class="stien-text">${scene.stien}</div>
       </div>
-      <div class="context-box">${scene.context}</div>
-      <div class="options-container">
-        <div class="options-label">Hoe reageer je?</div>
-  `;
+      <div class="context">${scene.context}</div>
+      <div class="options-label">Hoe reageer je?</div>`;
 
   scene.options.forEach((opt, i) => {
     const isSelected = answered && answers[currentScene] === i;
-    const showResult = answered;
-    const selectedClass = showResult ? opt.rating : '';
-    const dimmed = showResult && answers[currentScene] !== i ? 'style="opacity: 0.5;"' : '';
-    
+    const isRevealed = answered;
+    const isDimmed = isRevealed && !isSelected && !allVisible;
+    let classes = 'option-card';
+    if (isRevealed) classes += ` revealed ${opt.rating}`;
+    if (isSelected) classes += ' selected';
+    if (isDimmed) classes += ' dimmed';
     html += `
-      <div class="option-btn ${selectedClass}" ${dimmed} onclick="selectOption(${i})">
-        ${opt.text}
-        ${showResult ? `<div class="rating">${opt.label}</div>` : ''}
-      </div>
-    `;
-
-    if (showResult && answers[currentScene] === i) {
-      html += `<div class="feedback feedback-${opt.rating}">${opt.feedback}</div>`;
-    }
+      <div class="${classes}" onclick="selectOption(${i})">
+        <div class="option-top">
+          <div class="option-text">${opt.text}</div>
+          <div class="option-badge">${opt.label}</div>
+        </div>
+        <div class="option-feedback">${opt.feedback}</div>
+      </div>`;
   });
 
-  html += `</div>`; // close options-container
-
+  if (answered && !allVisible) {
+    html += `<button class="show-all-btn" style="display:block" onclick="showAll()">Bekijk alle opties en feedback</button>`;
+  }
   if (answered) {
-    // Show all feedback for non-selected options too
-    scene.options.forEach((opt, i) => {
-      if (answers[currentScene] !== i) {
-        html += `
-          <div style="opacity: 0.6; margin-top: 4px;">
-            <div class="feedback feedback-${opt.rating}" style="border-style: dashed;">
-              <strong style="color: ${opt.rating === 'green' ? 'var(--green)' : opt.rating === 'orange' ? 'var(--orange)' : 'var(--red)'};">${opt.label}:</strong> ${opt.feedback}
-            </div>
-          </div>
-        `;
-      }
-    });
-
     html += `
       <div class="nav-buttons">
         <button class="nav-btn" onclick="retry()">Opnieuw</button>
-        <button class="nav-btn primary" onclick="next()">${currentScene < scenes.length - 1 ? 'Volgende scène →' : 'Bekijk resultaat →'}</button>
-      </div>
-    `;
+        <button class="nav-btn primary" onclick="next()">${currentScene < scenes.length - 1 ? 'Volgende sc\u00e8ne \u2192' : 'Bekijk resultaat \u2192'}</button>
+      </div>`;
   }
-
-  html += `</div>`; // close chat-area
+  html += `</div>`;
   app.innerHTML = html;
-  
   if (answered) {
     setTimeout(() => {
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-    }, 100);
+      const sel = document.querySelector('.option-card.selected');
+      if (sel) sel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 150);
   }
 }
 
-function selectOption(index) {
+function selectOption(i) {
   if (answers[currentScene] !== undefined) return;
-  answers[currentScene] = index;
+  answers[currentScene] = i;
+  showingAll[currentScene] = false;
   render();
+}
+
+function showAll() {
+  showingAll[currentScene] = true;
+  document.querySelectorAll('.option-card').forEach(c => { c.classList.remove('dimmed'); c.classList.add('selected'); });
+  document.querySelector('.show-all-btn').style.display = 'none';
 }
 
 function next() {
   currentScene++;
   window.scrollTo({ top: 0, behavior: 'smooth' });
-  setTimeout(render, 300);
+  setTimeout(render, 250);
 }
 
 function retry() {
   answers[currentScene] = undefined;
+  showingAll[currentScene] = false;
   render();
 }
 
 function renderEnd(app) {
-  let greens = 0, oranges = 0, reds = 0;
-  answers.forEach((ansIdx, sceneIdx) => {
-    const rating = scenes[sceneIdx].options[ansIdx].rating;
-    if (rating === 'green') greens++;
-    else if (rating === 'orange') oranges++;
-    else reds++;
+  let g = 0, o = 0, r = 0;
+  answers.forEach((a, i) => {
+    const rt = scenes[i].options[a].rating;
+    if (rt === 'green') g++; else if (rt === 'orange') o++; else r++;
   });
-
-  const score = Math.round((greens / scenes.length) * 100);
-
-  let message = '';
-  if (greens >= 6) message = 'Je bent er klaar voor. Vertrouw op jezelf maandag.';
-  else if (greens >= 4) message = 'Goede basis. Oefen de scènes waar je oranje of rood scoorde nog even.';
-  else message = 'Loop de scènes nog een paar keer door. De antwoorden zitten er al in — ze moeten alleen nog automatisch worden.';
+  const score = Math.round((g / scenes.length) * 100);
+  let msg = '';
+  if (g >= 22) msg = 'Je bent er klaar voor. Vertrouw op jezelf morgen.';
+  else if (g >= 17) msg = 'Sterke basis. Oefen de sc\u00e8nes waar je oranje of rood scoorde nog even.';
+  else if (g >= 12) msg = 'Goede start, maar er zijn nog te veel onzekere momenten. Loop de oranje en rode sc\u00e8nes nog een paar keer door.';
+  else msg = 'Je hebt de kennis, maar de reflexen zitten er nog niet in. Speel het nog twee of drie keer door tot de goede antwoorden vanzelf komen.';
 
   app.innerHTML = `
     <div class="header">
       <div class="header-label">Gesprekssimulator</div>
       <h1>Loongesprek met Stien</h1>
     </div>
-    <div class="restart-section">
+    <div class="end-screen">
       <h2>Resultaat</h2>
-      <div class="score-display">${score}%</div>
-      <div class="score-breakdown">
-        <div class="score-item"><div class="dot dot-green"></div> ${greens} sterk</div>
-        <div class="score-item"><div class="dot dot-orange"></div> ${oranges} risicovol</div>
-        <div class="score-item"><div class="dot dot-red"></div> ${reds} vermijden</div>
+      <div class="score-big">${score}%</div>
+      <div class="score-row">
+        <span><span class="score-dot" style="background:var(--green)"></span>${g} sterk</span>
+        <span><span class="score-dot" style="background:var(--orange)"></span>${o} risicovol</span>
+        <span><span class="score-dot" style="background:var(--red)"></span>${r} vermijden</span>
       </div>
-      <p>${message}</p>
-      <button class="nav-btn primary" onclick="restart()" style="margin-top: 20px;">Opnieuw spelen</button>
-    </div>
-  `;
+      <p>${msg}</p>
+      <button class="nav-btn primary" onclick="restart()" style="margin-top:20px">Opnieuw spelen</button>
+    </div>`;
 }
 
 function restart() {
-  currentScene = 0;
-  answers = [];
+  currentScene = 0; answers = []; showingAll = []; lastPhase = "";
   window.scrollTo({ top: 0, behavior: 'smooth' });
-  setTimeout(render, 300);
+  setTimeout(render, 250);
 }
 
 render();
